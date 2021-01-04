@@ -1,0 +1,35 @@
+<template>
+  <div class="flex flex-col items-center w-full h-full">
+    <div class="flex flex-col w-full h-full overflow-auto">
+      <div
+        class="flex items-center flex-shrink-0 w-full p-2 my-1 text-gray-800"
+      >
+        <div class="flex flex-col flex-1 p-2 text-left">
+          <div class="text-sm font-bold uppercase">
+            John Doe
+          </div>
+          <div class="font-serif text-xs font-thin lowercase">
+            johndoe@pointhub.net
+          </div>
+        </div>
+        <div class="mx-4">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fal"
+            data-icon="pen"
+            class="inline-block w-4 h-4 svg-inline--fa fa-pen fa-w-16"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path
+              fill="currentColor"
+              d="M493.25 56.26l-37.51-37.51C443.25 6.25 426.87 0 410.49 0s-32.76 6.25-45.26 18.74L12.85 371.12.15 485.34C-1.45 499.72 9.88 512 23.95 512c.89 0 1.78-.05 2.69-.15l114.14-12.61 352.48-352.48c24.99-24.99 24.99-65.51-.01-90.5zM126.09 468.68l-93.03 10.31 10.36-93.17 263.89-263.89 82.77 82.77-263.99 263.98zm344.54-344.54l-57.93 57.93-82.77-82.77 57.93-57.93c6.04-6.04 14.08-9.37 22.63-9.37 8.55 0 16.58 3.33 22.63 9.37l37.51 37.51c12.47 12.48 12.47 32.78 0 45.26z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
