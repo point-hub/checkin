@@ -8,7 +8,7 @@
       >
         <div for="photo" class="heading-3">@user</div>
         <div class="flex flex-col sm:space-x-3 sm:flex-row">
-          <img :src="item.photo" class="w-full h-40 sm:w-1/3" alt="" />
+          <img :src="item.photo" class="w-full sm:w-1/3" alt="" />
           <div class="py-3 space-y-3 sm:py-0">
             <div>
               <h3 class="heading-4">Location :</h3>
@@ -20,11 +20,11 @@
             </div>
           </div>
         </div>
-        <div>
+        <div v-if="item.notes">
           <h3 class="heading-4">Notes :</h3>
           <textarea
             name="notes"
-            class="w-full p-2 text-sm border"
+            class="w-full p-2 text-sm border shadow"
             readonly
             rows="8"
             v-model="item.notes"
