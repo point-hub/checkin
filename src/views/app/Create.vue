@@ -62,7 +62,7 @@ export default {
           lat: -7,
           lng: 112
         },
-        draggable: true,
+        draggable: false,
         disableDefaultUi: true,
         fullscreenControl: false,
         mapTypeControl: false,
