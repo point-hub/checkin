@@ -102,17 +102,20 @@
     </div>
 
     <auth-footer></auth-footer>
+    <Loading ref="loadingRef"></Loading>
   </div>
 </template>
 
 <script>
 import AuthFooter from "@/layouts/AuthFooter";
 import axios from "@/axios";
+import Loading from "@/components/Loading";
 
 export default {
   name: "Registration",
   components: {
-    AuthFooter
+    AuthFooter,
+    Loading
   },
   data() {
     return {
@@ -128,12 +131,14 @@ export default {
   },
   methods: {
     async register() {
+      this.$refs.loadingRef.open();
       const result = await axios.post("/auth/register", this.form);
       if (result.status === 201) {
         //
       } else {
         this.errorMessage = result.data.error.message;
       }
+      this.$refs.loadingRef.close();
     },
     togglePassword() {
       if (this.inputTypePassword === "password") {

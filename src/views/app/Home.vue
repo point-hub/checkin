@@ -32,22 +32,29 @@
         </div>
       </div>
     </div>
+    <Loading ref="loadingRef"></Loading>
   </div>
 </template>
 <script>
 import axios from "@/axios";
+import Loading from "@/components/Loading";
+
 export default {
   name: "Home",
-  components: {},
+  components: {
+    Loading
+  },
   data() {
     return {
       data: []
     };
   },
   async mounted() {
+    this.$refs.loadingRef.open();
     const result = await axios.get("/checkins");
     if (result.status === 200) {
       this.data = result.data.data;
+      this.$refs.loadingRef.close();
     }
   }
 };

@@ -119,6 +119,7 @@
       </button> -->
     </div>
     <auth-footer></auth-footer>
+    <Loading ref="loadingRef"></Loading>
   </div>
 </template>
 
@@ -126,11 +127,13 @@
 import AuthFooter from "@/layouts/AuthFooter";
 import cookie from "@point-hub/vue-cookie";
 import axios from "@/axios";
+import Loading from "@/components/Loading";
 
 export default {
   name: "Login",
   components: {
-    AuthFooter
+    AuthFooter,
+    Loading
   },
   data() {
     return {
@@ -144,6 +147,7 @@ export default {
   },
   methods: {
     async login() {
+      this.$refs.loadingRef.open();
       try {
         const result = await axios.post("/auth/login", this.form);
         if (result.status === 200) {
@@ -152,8 +156,10 @@ export default {
         } else {
           this.errorMessage = "Error";
         }
+        this.$refs.loadingRef.close();
       } catch (error) {
         this.errorMessage = "Error";
+        this.$refs.loadingRef.close();
       }
     },
     togglePassword() {

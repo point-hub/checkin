@@ -37,18 +37,21 @@
         </button>
       </div>
     </div>
+    <Loading ref="loadingRef"></Loading>
   </div>
 </template>
 
 <script>
 import PointCamera from "@/components/PointCamera";
 import VueGoogleMaps from "@point-hub/vue-google-maps";
+import Loading from "@/components/Loading";
 import axios from "@/axios";
 
 export default {
   components: {
     PointCamera,
-    VueGoogleMaps
+    VueGoogleMaps,
+    Loading
   },
   data() {
     return {
@@ -103,8 +106,10 @@ export default {
     };
   },
   methods: {
-    save() {
-      axios.post("/checkins", this.form);
+    async save() {
+      this.$refs.loadingRef.open();
+      await axios.post("/checkins", this.form);
+      this.$refs.loadingRef.close();
     },
     // Vue Google Maps
     choosenAddress(choosenAddress) {
