@@ -108,7 +108,11 @@ export default {
   methods: {
     async save() {
       this.$refs.loadingRef.open();
-      await axios.post("/checkins", this.form);
+      const result = await axios.post("/checkins", this.form);
+      if (result.status === 201) {
+        this.form = {};
+        this.$router.push("/");
+      }
       this.$refs.loadingRef.close();
     },
     // Vue Google Maps
