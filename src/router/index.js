@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import AppLayout from "@/layouts/AppLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import GuestLayout from "@/layouts/GuestLayout.vue";
+import axios from "@/axios";
 
 const routes = [
   {
@@ -28,7 +29,16 @@ const routes = [
         name: "Account",
         component: () => import("@/views/app/Account")
       }
-    ]
+    ],
+    beforeEnter: async (to, from, next) => {
+      axios.resetToken();
+      let result = await axios.get("/auth/secret");
+      if (result.status === 200) {
+        next();
+      } else {
+        window.location.href = "/auth/login";
+      }
+    }
   },
   {
     path: "/",

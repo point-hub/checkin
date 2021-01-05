@@ -6,10 +6,10 @@
       >
         <div class="flex flex-col flex-1 p-2 text-left">
           <div class="text-sm font-bold uppercase">
-            John Doe
+            {{ username }}
           </div>
           <div class="font-serif text-xs font-thin lowercase">
-            johndoe@pointhub.net
+            {{ email }}
           </div>
         </div>
         <div class="mx-4">
@@ -33,3 +33,23 @@
     </div>
   </div>
 </template>
+
+<script>
+import axios from "@/axios";
+
+export default {
+  data() {
+    return {
+      username: "<username>",
+      email: "<email>"
+    };
+  },
+  async mounted() {
+    let result = await axios.get("/auth/secret");
+    if (result.status === 200) {
+      this.username = result.data.data.username;
+      this.email = result.data.data.email;
+    }
+  }
+};
+</script>

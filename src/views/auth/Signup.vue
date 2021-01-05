@@ -16,6 +16,7 @@
         </label>
         <input
           type="email"
+          v-model="form.email"
           class="p-2 my-1 text-black border-2 border-gray-400 rounded-md"
         />
       </div>
@@ -25,6 +26,7 @@
         </label>
         <input
           type="username"
+          v-model="form.username"
           class="p-2 my-1 text-black border-2 border-gray-400 rounded-md"
         />
       </div>
@@ -35,6 +37,7 @@
         <div class="relative">
           <input
             id="password"
+            v-model="form.password"
             :type="inputTypePassword"
             class="w-full p-2 my-1 text-black border-2 border-gray-400 rounded-md "
           />
@@ -80,6 +83,9 @@
           </button>
         </div>
       </div>
+      <p class="p-2 text-white bg-red-500" v-if="errorMessage">
+        {{ errorMessage }}
+      </p>
       <button
         class="p-2 my-4 font-bold text-white uppercase rounded-md bg-primary"
         @click="register()"
@@ -101,6 +107,8 @@
 
 <script>
 import AuthFooter from "@/layouts/AuthFooter";
+import axios from "@/axios";
+
 export default {
   name: "Registration",
   components: {
@@ -108,12 +116,24 @@ export default {
   },
   data() {
     return {
-      inputTypePassword: "password"
+      inputTypePassword: "password",
+      errorMessage: "",
+      password: "",
+      form: {
+        email: "",
+        username: "",
+        password: ""
+      }
     };
   },
   methods: {
-    register() {
-      this.$router.push("/");
+    async register() {
+      const result = await axios.post("/auth/register", this.form);
+      if (result.status === 201) {
+        //
+      } else {
+        this.errorMessage = result.data.error.message;
+      }
     },
     togglePassword() {
       if (this.inputTypePassword === "password") {

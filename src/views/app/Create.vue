@@ -4,7 +4,7 @@
       <div class="flex flex-col max-w-screen-sm space-y-3 rounded-xl">
         <div>
           <label for="photo" class="heading-3">Photo</label>
-          <point-camera :image="form.image" @onCaptured="onCaptured($event)" />
+          <point-camera :image="form.photo" @onCaptured="onCaptured($event)" />
         </div>
         <div>
           <label for="location" class="heading-3">Location</label>
@@ -43,6 +43,7 @@
 <script>
 import PointCamera from "@/components/PointCamera";
 import VueGoogleMaps from "@point-hub/vue-google-maps";
+import axios from "@/axios";
 
 export default {
   components: {
@@ -93,7 +94,7 @@ export default {
       infoWindow: null,
       marker: null,
       form: {
-        image: null,
+        photo: null,
         lat: null,
         lng: null,
         address: null,
@@ -103,7 +104,7 @@ export default {
   },
   methods: {
     save() {
-      // saving
+      axios.post("/checkins", this.form);
     },
     // Vue Google Maps
     choosenAddress(choosenAddress) {
@@ -225,7 +226,7 @@ export default {
     },
     // Point Camera
     onCaptured(value) {
-      this.form.image = value;
+      this.form.photo = value;
     }
   }
 };

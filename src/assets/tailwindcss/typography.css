@@ -8,4 +8,7 @@
   .heading-3 {
     @apply text-xl font-extrabold;
   }
+  .heading-4 {
+    @apply text-lg font-extrabold;
+  }
 }

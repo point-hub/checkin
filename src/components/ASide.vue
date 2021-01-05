@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import cookie from "@point-hub/vue-cookie";
+
 export default {
   name: "ASide",
   data() {
@@ -76,6 +78,7 @@ export default {
       this.isOpen = false;
     },
     logout() {
+      cookie.remove("token");
       this.$router.push("/auth/login");
     }
   }

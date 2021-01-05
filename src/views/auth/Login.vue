@@ -5,18 +5,19 @@
         <img src="@/assets/logo.png" alt="" class="w-16 m-2" />
         <div class="flex flex-col">
           <h1 class="text-4xl font-extrabold">CHECKIN</h1>
-          <span class="leading-3 text-right uppercase text-xs">
+          <span class="text-xs leading-3 text-right uppercase">
             Geolocation & Photo
           </span>
         </div>
       </div>
-      <form action="">
+      <form @submit.prevent="login">
         <div class="flex flex-col my-2">
           <label class="text-xs uppercase" for="username">
             Email
           </label>
           <input
             type="email"
+            v-model="form.email"
             class="p-2 my-1 text-black border-2 border-gray-400 rounded-md"
           />
         </div>
@@ -28,6 +29,7 @@
             <input
               id="password"
               :type="inputTypePassword"
+              v-model="form.password"
               class="w-full p-2 my-1 text-black border-2 border-gray-400 rounded-md "
             />
             <button
@@ -72,31 +74,32 @@
             </button>
           </div>
         </div>
+        <p class="p-2 text-white bg-red-500" v-if="errorMessage">
+          {{ errorMessage }}
+        </p>
         <button
           class="w-full p-2 my-4 font-bold text-white uppercase rounded-md bg-primary"
-          @click="login()"
         >
           Login
         </button>
       </form>
-      <div class="flex justify-between text-sm">
+      <div class="flex items-center justify-between text-sm">
         <div class="inline-flex items-center">
           <input type="checkbox" id="remember-me" class="mr-2" />
           <label for="remember-me">Remember me</label>
         </div>
         <div class="flex flex-col text-right">
-          <router-link to="" class="text-blue-500">
+          <!-- <router-link to="" class="text-blue-500">
             Forgot Password ?
-          </router-link>
-          <router-link to="/signup" class="mt-2 text-blue-500">
+          </router-link> -->
+          <router-link to="/signup" class="text-blue-500">
             I don't have an account
           </router-link>
         </div>
       </div>
       <hr class="my-4" />
-      <button
+      <!-- <button
         class="inline-flex items-center justify-center w-full p-2 my-4 font-bold text-center text-white uppercase rounded-md bg-primary"
-        @click="togglePassword()"
       >
         <svg
           aria-hidden="true"
@@ -113,7 +116,7 @@
             d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
           ></path></svg
         >SIGN IN WITH GOOGLE
-      </button>
+      </button> -->
     </div>
     <auth-footer></auth-footer>
   </div>
@@ -121,6 +124,9 @@
 
 <script>
 import AuthFooter from "@/layouts/AuthFooter";
+import cookie from "@point-hub/vue-cookie";
+import axios from "@/axios";
+
 export default {
   name: "Login",
   components: {
@@ -128,12 +134,27 @@ export default {
   },
   data() {
     return {
-      inputTypePassword: "password"
+      inputTypePassword: "password",
+      errorMessage: "",
+      form: {
+        email: "",
+        password: ""
+      }
     };
   },
   methods: {
-    login() {
-      this.$router.push("/");
+    async login() {
+      try {
+        const result = await axios.post("/auth/login", this.form);
+        if (result.status === 200) {
+          cookie.set("token", result.data.data.token);
+          this.$router.push("/");
+        } else {
+          this.errorMessage = "Error";
+        }
+      } catch (error) {
+        this.errorMessage = "Error";
+      }
     },
     togglePassword() {
       if (this.inputTypePassword === "password") {
