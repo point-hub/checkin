@@ -50,10 +50,15 @@ export default {
     };
   },
   async mounted() {
-    this.$refs.loadingRef.open();
-    const result = await axios.get("/checkins");
-    if (result.status === 200) {
-      this.data = result.data.data;
+    try {
+      this.$refs.loadingRef.open();
+      const result = await axios.get("/checkins");
+      if (result.status === 200) {
+        this.data = result.data.data;
+        this.$refs.loadingRef.close();
+      }
+      this.$refs.loadingRef.close();
+    } catch (error) {
       this.$refs.loadingRef.close();
     }
   }

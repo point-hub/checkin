@@ -40,15 +40,19 @@ import axios from "@/axios";
 export default {
   data() {
     return {
-      username: "<username>",
-      email: "<email>"
+      username: "",
+      email: ""
     };
   },
   async mounted() {
-    let result = await axios.get("/auth/secret");
-    if (result.status === 200) {
-      this.username = result.data.data.username;
-      this.email = result.data.data.email;
+    try {
+      let result = await axios.get("/auth/secret");
+      if (result.status === 200) {
+        this.username = result.data.data.username;
+        this.email = result.data.data.email;
+      }
+    } catch (error) {
+      //
     }
   }
 };

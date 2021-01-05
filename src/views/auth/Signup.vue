@@ -131,14 +131,18 @@ export default {
   },
   methods: {
     async register() {
-      this.$refs.loadingRef.open();
-      const result = await axios.post("/auth/register", this.form);
-      if (result.status === 201) {
-        //
-      } else {
-        this.errorMessage = result.data.error.message;
+      try {
+        this.$refs.loadingRef.open();
+        const result = await axios.post("/auth/register", this.form);
+        if (result.status === 201) {
+          //
+        } else {
+          this.errorMessage = result.data.error.message;
+        }
+        this.$refs.loadingRef.close();
+      } catch (error) {
+        this.$refs.loadingRef.close();
       }
-      this.$refs.loadingRef.close();
     },
     togglePassword() {
       if (this.inputTypePassword === "password") {

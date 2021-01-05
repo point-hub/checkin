@@ -107,13 +107,17 @@ export default {
   },
   methods: {
     async save() {
-      this.$refs.loadingRef.open();
-      const result = await axios.post("/checkins", this.form);
-      if (result.status === 201) {
-        this.form = {};
-        this.$router.push("/");
+      try {
+        this.$refs.loadingRef.open();
+        const result = await axios.post("/checkins", this.form);
+        if (result.status === 201) {
+          this.form = {};
+          this.$router.push("/");
+        }
+        this.$refs.loadingRef.close();
+      } catch (error) {
+        this.$refs.loadingRef.close();
       }
-      this.$refs.loadingRef.close();
     },
     // Vue Google Maps
     choosenAddress(choosenAddress) {
