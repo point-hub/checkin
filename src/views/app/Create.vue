@@ -62,13 +62,15 @@ export default {
           lat: -7,
           lng: 112
         },
-        zoomControl: true,
-        mapTypeControl: false,
-        scaleControl: false,
-        streetViewControl: false,
-        rotateControl: false,
-        fullscreenControl: false,
+        draggable: true,
         disableDefaultUi: true,
+        fullscreenControl: false,
+        mapTypeControl: false,
+        rotateControl: false,
+        scaleControl: false,
+        scrollwheel: false,
+        streetViewControl: false,
+        zoomControl: true,
         styles: [
           {
             featureType: "poi.business",
@@ -177,6 +179,7 @@ export default {
         }
         this.marker.setPosition(place.geometry.location);
         this.marker.setVisible(true);
+        this.marker.setDraggable(false);
 
         if (place.formatted_address) {
           this.form.address = place.formatted_address;
@@ -204,6 +207,7 @@ export default {
               animation: this.google.maps.Animation.DROP,
               title: "Current Position"
             });
+            this.marker.setDraggable(false);
             this.getGeocode();
             // eslint-disable-next-line no-undef
             google.maps.event.addListener(this.marker, "dragend", function(
