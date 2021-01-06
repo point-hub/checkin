@@ -2,12 +2,13 @@
   <div>
     <div
       v-if="isOpen"
+      @click="isOpen = false"
       class="absolute z-10 w-full h-full bg-gray-700 opacity-50"
     />
     <transition name="slide-fade">
-      <div v-if="isOpen" class="absolute z-20 flex justify-end w-full h-full">
+      <div v-if="isOpen" class="absolute flex justify-end w-full h-full">
         <div
-          class="flex flex-col justify-between w-64 h-full p-2 bg-gray-100 shadow-lg"
+          class="z-20 flex flex-col justify-between w-64 h-full p-2 bg-gray-100 shadow-lg"
         >
           <div class="flex justify-between flex-grow-0 p-2">
             <h1 class="py-1 uppercase">

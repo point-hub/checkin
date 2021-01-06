@@ -179,7 +179,6 @@ export default {
         }
         this.marker.setPosition(place.geometry.location);
         this.marker.setVisible(true);
-        this.marker.setDraggable(false);
 
         if (place.formatted_address) {
           this.form.address = place.formatted_address;
@@ -203,11 +202,10 @@ export default {
             this.marker = new Marker({
               position: this.myPosition,
               map: this.map,
-              draggable: true,
+              draggable: false,
               animation: this.google.maps.Animation.DROP,
               title: "Current Position"
             });
-            this.marker.setDraggable(false);
             this.getGeocode();
             // eslint-disable-next-line no-undef
             google.maps.event.addListener(this.marker, "dragend", function(
