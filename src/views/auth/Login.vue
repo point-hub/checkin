@@ -152,6 +152,7 @@ export default {
         const result = await axios.post("/auth/login", this.form);
         if (result.status === 200) {
           cookie.set("token", result.data.data.token);
+          Object.assign(this.$data, this.$options.data.call(this));
           this.$router.push("/");
         } else {
           this.errorMessage = "Error";

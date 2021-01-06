@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="fixed inset-0 bg-gray-800 opacity-75" />
+  <div v-if="isOpen" class="fixed inset-0 bg-gray-300 opacity-75" />
   <div
     v-if="isOpen"
     class="fixed inset-0 flex flex-col items-center justify-center w-full max-w-screen-sm p-4 m-auto"
