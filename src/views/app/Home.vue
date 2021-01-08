@@ -4,29 +4,33 @@
       <div
         v-for="(item, index) in data"
         :key="index"
-        class="p-4 space-y-3 bg-white rounded shadow"
+        class="pb-2 my-2 space-y-4 bg-white rounded shadow"
       >
-        <div for="photo" class="heading-3">@user</div>
-        <div class="flex flex-col sm:space-x-3 sm:flex-row">
+        <div for="photo" class="flex items-center h-12 space-x-2 shadow">
+          <img src="@/assets/avatar/1.svg" alt="avatar" class="w-12 h-12" />
+          <div class="flex flex-col">
+            <span class="text-sm font-bold">JOHN DOE</span>
+            <span class="text-xs">@user</span>
+          </div>
+        </div>
+        <div
+          class="flex flex-col px-4 space-y-2 sm:space-y-0 sm:space-x-3 sm:flex-row"
+        >
           <img :src="item.photo" class="w-full sm:w-1/3" alt="" />
-          <div class="py-3 space-y-3 sm:py-0">
+          <div class="space-y-3 sm:py-0">
             <div>
-              <h3 class="heading-4">Location :</h3>
-              <p class="text-sm">{{ item.lat }}, {{ item.lng }}</p>
-            </div>
-            <div>
-              <h3 class="heading-4">Address :</h3>
+              <h3 class="heading-4">Address</h3>
               <p class="text-sm">{{ item.address }}</p>
             </div>
           </div>
         </div>
-        <div v-if="item.notes">
-          <h3 class="heading-4">Notes :</h3>
+        <div v-if="item.notes" class="px-4">
+          <h3 class="heading-4">Notes</h3>
           <textarea
             name="notes"
-            class="w-full p-2 text-sm border shadow"
+            class="w-full text-sm border-0"
             readonly
-            rows="8"
+            rows="4"
             v-model="item.notes"
           ></textarea>
         </div>
@@ -52,7 +56,9 @@ export default {
   async mounted() {
     try {
       this.$refs.loadingRef.open();
-      const result = await axios.get("/checkins");
+      const result = await axios.get("/checkins", {
+        filter: {}
+      });
       if (result.status === 200) {
         this.data = result.data.data;
         this.$refs.loadingRef.close();

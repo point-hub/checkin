@@ -3,6 +3,7 @@ import AppLayout from "@/layouts/AppLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import GuestLayout from "@/layouts/GuestLayout.vue";
 import axios from "@/axios";
+import store from "@/store";
 
 const routes = [
   {
@@ -34,6 +35,7 @@ const routes = [
       axios.resetToken();
       let result = await axios.get("/auth/secret");
       if (result.status === 200) {
+        store.dispatch("auth/updateAuthUser", result.data.data);
         next();
       } else {
         window.location.href = "/auth/login";

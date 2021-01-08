@@ -128,6 +128,7 @@ import AuthFooter from "@/layouts/AuthFooter";
 import cookie from "@point-hub/vue-cookie";
 import axios from "@/axios";
 import Loading from "@/components/Loading";
+import { mapActions } from "vuex";
 
 export default {
   name: "Login",
@@ -146,12 +147,15 @@ export default {
     };
   },
   methods: {
+    ...mapActions("auth", ["updateAuthUser"]),
     async login() {
       this.$refs.loadingRef.open();
       try {
         const result = await axios.post("/auth/login", this.form);
         if (result.status === 200) {
           cookie.set("token", result.data.data.token);
+          console.log(result.data.data);
+          this.updateAuthUser(result.data.data);
           Object.assign(this.$data, this.$options.data.call(this));
           this.$router.push("/");
         } else {

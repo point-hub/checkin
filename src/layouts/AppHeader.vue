@@ -8,12 +8,12 @@
     <div class="flex w-full h-16">
       <div class="flex w-full text-white">
         <div class="flex items-center justify-center">
-          <img src="@/assets/logo.png" alt="" class="h-16" />
+          <img src="@/assets/logo.png" alt="" class="h-12" />
         </div>
         <div class="flex flex-col self-center">
-          <h1 class="heading-1">CHECKIN</h1>
-          <span class="leading-3 text-right uppercase text-xs">
-            Geolocation & Photo
+          <h1 class="heading-2">CHECKIN</h1>
+          <span class="text-xs leading-3 text-right uppercase">
+            BUMI INDO MAPAN SEJAHTERA
           </span>
         </div>
       </div>
