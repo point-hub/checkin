@@ -9,8 +9,10 @@
         <div for="photo" class="flex items-center h-12 space-x-2 shadow">
           <img src="@/assets/avatar/1.svg" alt="avatar" class="w-12 h-12" />
           <div class="flex flex-col">
-            <span class="text-sm font-bold">JOHN DOE</span>
-            <span class="text-xs">@user</span>
+            <span class="text-sm font-bold">
+              {{ item.user.firstName }} {{ item.user.lastName }}
+            </span>
+            <span class="text-xs">@{{ item.user.username }}</span>
           </div>
         </div>
         <div
@@ -42,7 +44,7 @@
 <script>
 import axios from "@/axios";
 import Loading from "@/components/Loading";
-
+import { mapGetters } from "vuex";
 export default {
   name: "Home",
   components: {
@@ -53,11 +55,16 @@ export default {
       data: []
     };
   },
+  computed: {
+    ...mapGetters("auth", ["activeGroup"])
+  },
   async mounted() {
     try {
       this.$refs.loadingRef.open();
       const result = await axios.get("/checkins", {
-        filter: {}
+        params: {
+          group_id: this.activeGroup._id
+        }
       });
       if (result.status === 200) {
         this.data = result.data.data;

@@ -19,7 +19,12 @@
         </div>
         <div>
           <label for="address" class="heading-3">Address</label>
-          <input type="text" class="w-full p-2 mt-2" v-model="form.address" />
+          <input
+            type="text"
+            class="w-full p-2 mt-2"
+            v-model="form.address"
+            readonly
+          />
         </div>
         <div>
           <label for="notes" class="heading-3">Notes</label>
@@ -46,7 +51,7 @@ import PointCamera from "@/components/PointCamera";
 import VueGoogleMaps from "@point-hub/vue-google-maps";
 import Loading from "@/components/Loading";
 import axios from "@/axios";
-
+import { mapGetters } from "vuex";
 export default {
   components: {
     PointCamera,
@@ -107,11 +112,17 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters("auth", ["activeGroup"])
+  },
   methods: {
     async save() {
       try {
         this.$refs.loadingRef.open();
-        const result = await axios.post("/checkins", this.form);
+        const result = await axios.post("/checkins", {
+          ...this.form,
+          group_id: this.activeGroup._id
+        });
         if (result.status === 201) {
           this.form = {};
           this.$router.push("/");

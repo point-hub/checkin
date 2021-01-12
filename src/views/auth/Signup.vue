@@ -31,6 +31,26 @@
         />
       </div>
       <div class="flex flex-col my-2">
+        <label class="text-xs uppercase" for="username">
+          First Name
+        </label>
+        <input
+          type="firstName"
+          v-model="form.firstName"
+          class="p-2 my-1 text-black border-2 border-gray-400 rounded-md"
+        />
+      </div>
+      <div class="flex flex-col my-2">
+        <label class="text-xs uppercase" for="username">
+          Last Name
+        </label>
+        <input
+          type="lastName"
+          v-model="form.lastName"
+          class="p-2 my-1 text-black border-2 border-gray-400 rounded-md"
+        />
+      </div>
+      <div class="flex flex-col my-2">
         <label class="text-xs uppercase" for="password">
           Password
         </label>
@@ -125,6 +145,8 @@ export default {
       form: {
         email: "",
         username: "",
+        firstName: "",
+        lastName: "",
         password: ""
       }
     };

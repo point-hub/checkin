@@ -33,13 +33,8 @@ const routes = [
     ],
     beforeEnter: async (to, from, next) => {
       axios.resetToken();
-      let result = await axios.get("/auth/secret");
-      if (result.status === 200) {
-        store.dispatch("auth/updateAuthUser", result.data.data);
-        next();
-      } else {
-        window.location.href = "/auth/login";
-      }
+      store.dispatch("auth/loginUsingToken");
+      next();
     }
   },
   {

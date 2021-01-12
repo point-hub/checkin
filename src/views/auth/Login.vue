@@ -10,7 +10,7 @@
           </span>
         </div>
       </div>
-      <form @submit.prevent="login">
+      <form @submit.prevent="onLogin">
         <div class="flex flex-col my-2">
           <label class="text-xs uppercase" for="username">
             Email
@@ -125,8 +125,6 @@
 
 <script>
 import AuthFooter from "@/layouts/AuthFooter";
-import cookie from "@point-hub/vue-cookie";
-import axios from "@/axios";
 import Loading from "@/components/Loading";
 import { mapActions } from "vuex";
 
@@ -147,21 +145,26 @@ export default {
     };
   },
   methods: {
-    ...mapActions("auth", ["updateAuthUser"]),
-    async login() {
+    ...mapActions("auth", [
+      "login",
+      "updateAuthUser",
+      "updateUserGroups",
+      "updateActiveGroup"
+    ]),
+    async onLogin() {
       this.$refs.loadingRef.open();
       try {
-        const result = await axios.post("/auth/login", this.form);
+        const result = await this.login({
+          email: this.form.email,
+          password: this.form.password
+        });
         if (result.status === 200) {
-          cookie.set("token", result.data.data.token);
-          console.log(result.data.data);
-          this.updateAuthUser(result.data.data);
+          this.$refs.loadingRef.close();
           Object.assign(this.$data, this.$options.data.call(this));
           this.$router.push("/");
         } else {
           this.errorMessage = "Error";
         }
-        this.$refs.loadingRef.close();
       } catch (error) {
         this.errorMessage = "Error";
         this.$refs.loadingRef.close();

@@ -40,25 +40,29 @@ export default {
   data() {
     return {
       isOpen: false,
-      groups: [],
+      id: null,
       form: {
-        name: ""
+        email: null
       }
     };
   },
-  emits: ["created"],
+  emits: ["added"],
   methods: {
-    open() {
+    open(id) {
+      this.id = id;
       this.isOpen = true;
     },
     close() {
       this.isOpen = false;
     },
     async save() {
-      const result = await axios.post("/groups", this.form);
-      if (result.status === 201) {
+      const result = await axios.put(
+        `/groups/${this.id}/inviteUser`,
+        this.form
+      );
+      if (result.status === 200) {
         Object.assign(this.$data, this.$options.data.call(this));
-        this.$emit("created");
+        this.$emit("added");
         this.close();
       }
     }

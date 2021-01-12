@@ -1109,10 +1109,10 @@
   dependencies:
     es6-promise "^4.2.8"
 
-"@point-hub/vue-cookie@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@point-hub/vue-cookie/-/vue-cookie-0.1.0.tgz#19d9685e6d6b78d349e889db50bebedc140cccd0"
-  integrity sha512-mo+esmTHXcZahRthiV6KmOMSzMF3yX9rNb1mFSlld2HAxVa9fk6iHaQdANeJjIqIn2ova0jH8tMANG03TKpUCA==
+"@point-hub/vue-cookie@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@point-hub/vue-cookie/-/vue-cookie-0.1.1.tgz#6db18c55fbf637646c7d2409301b1b5bda05a8cb"
+  integrity sha512-2ZlSR0YZc/1xEhbJ3qyC5uXzpbnbR9y2wpiCxHrgjfaLuQbYl0Kv1MYqcgePe4WTQScQ/DLYpiZclIJMQETf4g==
   dependencies:
     core-js "^3.6.5"
     vue "^3.0.0-0"

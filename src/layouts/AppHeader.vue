@@ -12,8 +12,8 @@
         </div>
         <div class="flex flex-col self-center">
           <h1 class="heading-2">CHECKIN</h1>
-          <span class="text-xs leading-3 text-right uppercase">
-            BUMI INDO MAPAN SEJAHTERA
+          <span class="text-xs leading-3 uppercase">
+            {{ activeGroup.name }}
           </span>
         </div>
       </div>
@@ -34,9 +34,14 @@
 
 <script>
 import ASide from "@/components/ASide";
+import { mapGetters } from "vuex";
+
 export default {
   components: {
     ASide
+  },
+  computed: {
+    ...mapGetters("auth", ["activeGroup"])
   }
 };
 </script>

@@ -6,14 +6,14 @@
       >
         <div class="flex flex-col flex-1 p-2 text-left">
           <div class="text-sm font-bold uppercase">
-            {{ username }}
+            {{ authUser.username }}
           </div>
-          <div class="font-serif text-xs font-thin lowercase">
-            {{ email }}
+          <div class="font-serif text-sm font-thin lowercase">
+            {{ authUser.email }}
           </div>
         </div>
         <div class="mx-4">
-          <svg
+          <!-- <svg
             aria-hidden="true"
             focusable="false"
             data-prefix="fal"
@@ -27,7 +27,7 @@
               fill="currentColor"
               d="M493.25 56.26l-37.51-37.51C443.25 6.25 426.87 0 410.49 0s-32.76 6.25-45.26 18.74L12.85 371.12.15 485.34C-1.45 499.72 9.88 512 23.95 512c.89 0 1.78-.05 2.69-.15l114.14-12.61 352.48-352.48c24.99-24.99 24.99-65.51-.01-90.5zM126.09 468.68l-93.03 10.31 10.36-93.17 263.89-263.89 82.77 82.77-263.99 263.98zm344.54-344.54l-57.93 57.93-82.77-82.77 57.93-57.93c6.04-6.04 14.08-9.37 22.63-9.37 8.55 0 16.58 3.33 22.63 9.37l37.51 37.51c12.47 12.48 12.47 32.78 0 45.26z"
             ></path>
-          </svg>
+          </svg> -->
         </div>
       </div>
       <div
@@ -42,16 +42,16 @@
               class="font-extrabold uppercase"
               @click="$refs.chooseGroupRef.open()"
             >
-              <span v-if="!group.users" class="text-gray-500 opacity-50">
+              <span v-if="!activeGroup.name" class="text-gray-500 opacity-50">
                 CHOOSE GROUP
               </span>
-              {{ group.name }}
+              {{ activeGroup.name }}
             </div>
           </div>
           <button
             class="px-2 focus:outline-none flex-0"
-            v-if="group.users"
-            @click="$refs.addUserRef.open(group)"
+            v-if="activeGroup.users"
+            @click="$refs.addUserRef.open(activeGroup._id)"
           >
             <svg
               aria-hidden="true"
@@ -70,26 +70,31 @@
             </svg>
           </button>
         </div>
-        <div
-          class="flex flex-col flex-1 p-2 pl-5 space-y-2 text-left font-roboto-mono"
-        >
-          <div class="text-xs uppercase" v-if="group.users">
+        <div class="flex flex-col flex-1 p-2 pl-5 space-y-2 text-left">
+          <div class="text-xs uppercase" v-if="activeGroup.users">
             Member
           </div>
           <div
             class="flex items-center justify-between text-sm"
-            v-for="(user, index) in group.users"
+            v-for="(user, index) in activeGroup.users"
             :key="index"
           >
-            <div class="font-bold uppercase">
-              {{ index + 1 }}. {{ user.username }}
+            <div class="flex justify-between">
+              <span class="mr-1">{{ index + 1 }}.</span>
+              <div class="flex flex-col font-bold uppercase">
+                <span v-if="user.username">{{ user.username }}</span>
+                <span class="text-gray-500" v-else>(PENDING INVITE)</span>
+                <span class="text-xs font-light lowercase">{{
+                  user.email
+                }}</span>
+              </div>
             </div>
             <button
               class="px-1"
               @click="
                 $refs.deleteConfirmationRef.open(
-                  { userId: user._id, groupId: group._id },
-                  `Are you sure want to remove ${user.username} from group ${group.name}`
+                  { user_id: user._id, group_id: activeGroup._id },
+                  `Are you sure want to remove ${user.username} from group ${activeGroup.name}`
                 )
               "
             >
@@ -113,7 +118,7 @@
         </div>
       </div>
     </div>
-    <add-user ref="addUserRef" @choosen="addedUser($event)"></add-user>
+    <add-user ref="addUserRef" @added="addedUser($event)"></add-user>
     <choose-group
       ref="chooseGroupRef"
       @choosen="updateGroup($event)"
@@ -130,6 +135,8 @@ import axios from "@/axios";
 import AddUser from "@/components/AddUser";
 import ChooseGroup from "@/components/ChooseGroup";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
+import cookie from "@point-hub/vue-cookie";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {
@@ -138,41 +145,37 @@ export default {
     DeleteConfirmation
   },
   data() {
-    return {
-      username: "",
-      email: "",
-      group: {}
-    };
+    return {};
+  },
+  computed: {
+    ...mapGetters("auth", ["authUser", "activeGroup"])
   },
   async mounted() {
-    try {
-      let result = await axios.get("/auth/secret");
-      if (result.status === 200) {
-        this.username = result.data.data.username;
-        this.email = result.data.data.email;
-      }
-    } catch (error) {
-      //
-    }
+    this.loginUsingToken();
   },
   methods: {
+    ...mapActions("auth", [
+      "updateActiveGroup",
+      "updateDefaultActiveGroup",
+      "loginUsingToken"
+    ]),
     updateGroup(group) {
-      this.group = group;
+      cookie.set("activeGroupId", group._id);
+      this.updateActiveGroup(group);
     },
     async addedUser() {
-      //
+      this.loginUsingToken();
     },
     async deleteUserGroup(callback) {
-      console.log(callback);
       try {
         const result = await axios.put(
-          `/groups/${callback.groupId}/removeUser`,
+          `/groups/${callback.group_id}/removeUser`,
           {
-            userId: callback.userId
+            user_id: callback.user_id
           }
         );
         if (result.status === 200) {
-          this.group = result.data.updated;
+          this.loginUsingToken();
         }
       } catch (error) {
         console.log(error);
