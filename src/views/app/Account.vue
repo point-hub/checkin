@@ -84,20 +84,12 @@
               <div class="flex flex-col font-bold uppercase">
                 <span v-if="user.username">{{ user.username }}</span>
                 <span class="text-gray-500" v-else>(PENDING INVITE)</span>
-                <span class="text-xs font-light lowercase">{{
-                  user.email
-                }}</span>
+                <span class="text-xs font-light lowercase">
+                  {{ user.email }}
+                </span>
               </div>
             </div>
-            <button
-              class="px-1"
-              @click="
-                $refs.deleteConfirmationRef.open(
-                  { user_id: user._id, group_id: activeGroup._id },
-                  `Are you sure want to remove ${user.username} from group ${activeGroup.name}`
-                )
-              "
-            >
+            <button class="px-1" @click="onDeleteUser(user)">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -166,14 +158,30 @@ export default {
     async addedUser() {
       this.loginUsingToken();
     },
+    onDeleteUser(user) {
+      this.$refs.deleteConfirmationRef.open(
+        {
+          user_id: user._id,
+          group_id: this.activeGroup._id,
+          email: user.email
+        },
+        `Are you sure want to remove ${user.username ||
+          user.email} from group ${this.activeGroup.name}`
+      );
+    },
     async deleteUserGroup(callback) {
       try {
-        const result = await axios.put(
-          `/groups/${callback.group_id}/removeUser`,
-          {
+        let result;
+        if (callback.user_id) {
+          result = await axios.put(`/groups/${callback.group_id}/removeUser`, {
             user_id: callback.user_id
-          }
-        );
+          });
+        } else {
+          result = await axios.put(`/groups/${callback.group_id}/removeUser`, {
+            email: callback.email
+          });
+        }
+
         if (result.status === 200) {
           this.loginUsingToken();
         }

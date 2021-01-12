@@ -163,6 +163,7 @@ export default {
           Object.assign(this.$data, this.$options.data.call(this));
           this.$router.push("/");
         } else {
+          this.$refs.loadingRef.close();
           this.errorMessage = "Error";
         }
       } catch (error) {
