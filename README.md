@@ -1,4 +1,4 @@
-# checkin
+# @point-hub/checkin
 
 ## Project setup
 ```

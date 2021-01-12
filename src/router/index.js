@@ -1,20 +1,79 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
+import AppLayout from "@/layouts/AppLayout.vue";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import GuestLayout from "@/layouts/GuestLayout.vue";
+import axios from "@/axios";
+import store from "@/store";
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    component: AppLayout,
+    children: [
+      {
+        path: "",
+        name: "Home",
+        component: () => import("@/views/app/Home")
+      },
+      {
+        path: "checkin/create",
+        name: "Create",
+        component: () => import("@/views/app/Create")
+      },
+      {
+        path: "checkin/:id",
+        name: "Show",
+        component: () => import("@/views/app/Show")
+      },
+      {
+        path: "account",
+        name: "Account",
+        component: () => import("@/views/app/Account")
+      }
+    ],
+    beforeEnter: async (to, from, next) => {
+      axios.resetToken();
+      store.dispatch("auth/loginUsingToken");
+      next();
+    }
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "/",
+    component: GuestLayout,
+    children: [
+      {
+        path: "terms",
+        name: "Terms",
+        component: () => import("@/views/Terms.vue")
+      },
+      {
+        path: "policy",
+        name: "Policy",
+        component: () => import("@/views/Policy.vue")
+      }
+    ]
+  },
+  {
+    path: "/auth",
+    component: AuthLayout,
+    children: [
+      {
+        path: "login",
+        name: "Login",
+        component: () => import("@/views/auth/Login.vue")
+      }
+    ]
+  },
+  {
+    path: "/signup",
+    component: AuthLayout,
+    children: [
+      {
+        path: "",
+        name: "Signup",
+        component: () => import("@/views/auth/Signup.vue")
+      }
+    ]
   }
 ];
 

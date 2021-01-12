@@ -1,0 +1,22 @@
+/*! @import */
+@import "./assets/tailwindcss/index.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer base {
+  html, body, #app {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  .font-roboto-mono {
+    font-family: 'Roboto Mono', monospace;
+  }
+}

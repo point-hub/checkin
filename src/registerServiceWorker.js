@@ -21,6 +21,11 @@ if (process.env.NODE_ENV === "production") {
     },
     updated() {
       console.log("New content is available; please refresh.");
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for (const registration of registrations) {
+          registration.update();
+        }
+      });
     },
     offline() {
       console.log(
