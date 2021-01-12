@@ -7,7 +7,7 @@
         class="pb-2 my-2 space-y-4 bg-white rounded shadow"
       >
         <div for="photo" class="flex items-center h-12 space-x-2 shadow">
-          <img src="@/assets/avatar/1.svg" alt="avatar" class="w-12 h-12" />
+          <img src="@/assets/avatar/1.png" alt="avatar" class="w-12 h-12" />
           <div class="flex flex-col">
             <span class="text-sm font-bold">
               {{ item.user.firstName }} {{ item.user.lastName }}
