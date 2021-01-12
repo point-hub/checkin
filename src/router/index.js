@@ -33,7 +33,7 @@ const routes = [
     ],
     beforeEnter: async (to, from, next) => {
       axios.resetToken();
-      store.dispatch("auth/loginUsingToken");
+      await store.dispatch("auth/loginUsingToken");
       next();
     }
   },
