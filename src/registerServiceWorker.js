@@ -19,13 +19,13 @@ if (process.env.NODE_ENV === "production") {
     updatefound() {
       console.log("New content is downloading.");
     },
-    updated() {
+    updated(registration) {
       console.log("New content is available; please refresh.");
-      navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for (const registration of registrations) {
-          registration.update();
-        }
+      // update service worker automatically without reload
+      registration.waiting.postMessage({
+        action: "skipWaiting"
       });
+      registration.update();
     },
     offline() {
       console.log(

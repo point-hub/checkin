@@ -13,8 +13,9 @@ module.exports = {
     resolve: { symlinks: false }
   },
   pwa: {
+    workboxPluginMode: "InjectManifest",
     workboxOptions: {
-      skipWaiting: true
+      swSrc: "src/service-worker.js"
     }
   }
 };
