@@ -20,8 +20,13 @@
             class="px-2 py-2 border border-gray-500"
           />
         </div>
-        <div>
-          <button class="w-full btn btn-primary" @click="save()">Save</button>
+        <div class="space-y-2">
+          <div v-if="errorMessage" class="p-2 text-white bg-red-500">
+            {{ errorMessage }}
+          </div>
+          <button class="w-full uppercase btn btn-primary" @click="save()">
+            Save
+          </button>
         </div>
       </div>
     </div>
@@ -35,6 +40,7 @@ export default {
   data() {
     return {
       isOpen: false,
+      errorMessage: "",
       groups: [],
       form: {
         name: ""
@@ -50,11 +56,23 @@ export default {
       this.isOpen = false;
     },
     async save() {
-      const result = await axios.post("/groups", this.form);
-      if (result.status === 201) {
-        Object.assign(this.$data, this.$options.data.call(this));
-        this.$emit("created");
-        this.close();
+      try {
+        const result = await axios.post("/groups", this.form);
+        if (result.status === 201) {
+          Object.assign(this.$data, this.$options.data.call(this));
+          this.$emit("created");
+          this.close();
+        }
+      } catch (error) {
+        if (
+          error.data.error.message.includes(
+            "E11000 duplicate key error collection"
+          )
+        ) {
+          this.errorMessage = "Please use another name";
+        } else {
+          this.errorMessage = error.data.error.message;
+        }
       }
     }
   }
