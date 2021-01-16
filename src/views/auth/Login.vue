@@ -30,7 +30,8 @@
               id="password"
               :type="inputTypePassword"
               v-model="form.password"
-              class="w-full p-2 my-1 text-black border-2 border-gray-400 rounded-md "
+              autocomplete="off"
+              class="w-full p-2 my-1 text-black border-2 border-gray-400 rounded-md"
             />
             <button
               type="button"
@@ -152,8 +153,9 @@ export default {
       "updateActiveGroup"
     ]),
     async onLogin() {
-      this.$refs.loadingRef.open();
       try {
+        this.$refs.loadingRef.open();
+        this.inputTypePassword = "password";
         const result = await this.login({
           email: this.form.email,
           password: this.form.password
@@ -163,11 +165,15 @@ export default {
           Object.assign(this.$data, this.$options.data.call(this));
           this.$router.push("/");
         } else {
+          if (result.data.error.message === "Unauthorized") {
+            this.errorMessage = "Wrong email or password";
+          } else {
+            this.errorMessage = result.data.error.message;
+          }
           this.$refs.loadingRef.close();
-          this.errorMessage = "Error";
         }
       } catch (error) {
-        this.errorMessage = "Error";
+        this.errorMessage = error.message;
         this.$refs.loadingRef.close();
       }
     },
