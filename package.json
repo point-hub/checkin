@@ -1,11 +1,11 @@
 {
   "name": "@point-hub/checkin",
-  "version": "0.2.2",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:https": "vue-cli-service serve --https",
-    "build": "yarn;vue-cli-service build --dest build/0.2.2",
+    "build": "yarn;vue-cli-service build --dest build/0.3.1",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
@@ -18,6 +18,7 @@
     "lodash": "^4.17.20",
     "mobile-device-detect": "^0.4.3",
     "register-service-worker": "^1.7.1",
+    "socket.io-client": "^3.1.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",

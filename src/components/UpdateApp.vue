@@ -15,7 +15,7 @@
           <p>
             We are keep improving stability, performance and added new feature,
             please refresh your page or click update button below to receive new
-            update
+            update <template v-if="newVersion">{{ newVersion }}</template>
           </p>
         </div>
         <div class="flex space-x-2">
@@ -41,15 +41,20 @@
 export default {
   data() {
     return {
+      newVersion: null,
       isOpen: false
     };
   },
   methods: {
-    open() {
+    open(newVersion = null) {
+      this.newVersion = newVersion;
       this.isOpen = true;
     },
     close() {
       this.isOpen = false;
+    },
+    isModalOpen() {
+      return this.isOpen;
     },
     updateNow() {
       window.location.reload(true);
