@@ -25,12 +25,13 @@
         <input
           type="text"
           v-model="search"
+          @input="filterSearch"
           class="w-full px-4 py-2 border"
           placeholder="search"
         />
       </div>
       <div class="flex flex-col pb-4 space-y-4 overflow-auto">
-        <div class="flex" v-for="(group, index) in groups" :key="index">
+        <div class="flex" v-for="(group, index) in mutableGroups" :key="index">
           <button
             @click="chooseGroup(group)"
             class="flex-1 p-2 text-sm text-left border border-gray-100 shadow"
@@ -132,7 +133,8 @@ export default {
   data() {
     return {
       isOpen: false,
-      search: null
+      search: "",
+      mutableGroups: []
     };
   },
   computed: {
@@ -142,7 +144,7 @@ export default {
   methods: {
     ...mapActions("auth", ["loginUsingToken"]),
     async open() {
-      this.loginUsingToken();
+      this.fetchGroups();
       this.isOpen = true;
     },
     close() {
@@ -154,11 +156,15 @@ export default {
         this.close();
       }
     },
-    fetchGroups() {
-      this.loginUsingToken();
+    async fetchGroups() {
+      await this.loginUsingToken();
+      this.mutableGroups = this.groups;
+      this.mutableGroups = this.groups.filter(o =>
+        Object.keys(o).some(k => o[k].includes(this.search))
+      );
     },
-    searchGroup: debounce(function() {
-      this.search;
+    filterSearch: debounce(function() {
+      this.fetchGroups();
     }, 500),
     async acceptInvite(id) {
       const result = await axios.put(`/groups/${id}/acceptInvite`);

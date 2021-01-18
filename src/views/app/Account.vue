@@ -73,18 +73,27 @@
           </button>
         </div>
         <div class="flex flex-col flex-1 p-2 pl-5 space-y-2 text-left">
-          <div class="text-xs uppercase" v-if="activeGroup.users">
+          <div class="text-xs uppercase" v-if="mutableUsers">
             Member
           </div>
+          <input
+            type="text"
+            v-model="search"
+            @input="filterSearch"
+            class="w-full px-4 py-2 border"
+            placeholder="search"
+          />
           <div
             class="flex items-center justify-between text-sm"
-            v-for="(user, index) in activeGroup.users"
+            v-for="(user, index) in mutableUsers"
             :key="index"
           >
             <div class="flex justify-between">
               <span class="mr-1">{{ index + 1 }}.</span>
               <div class="flex flex-col font-bold uppercase">
-                <span v-if="user.username">{{ user.username }}</span>
+                <span v-if="user.firstName">
+                  {{ user.firstName }} {{ user.lastName }}
+                </span>
                 <span class="text-gray-500" v-else>(PENDING INVITE)</span>
                 <span class="text-xs font-light lowercase">
                   {{ user.email }}
@@ -137,6 +146,7 @@ import AddUser from "@/components/AddUser";
 import ChooseGroup from "@/components/ChooseGroup";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import cookie from "@point-hub/vue-cookie";
+import debounce from "lodash/debounce";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -146,13 +156,17 @@ export default {
     DeleteConfirmation
   },
   data() {
-    return {};
+    return {
+      search: "",
+      mutableUsers: []
+    };
   },
   computed: {
     ...mapGetters("auth", ["authUser", "activeGroup"])
   },
   async mounted() {
-    this.loginUsingToken();
+    await this.loginUsingToken();
+    this.fetchUsers();
   },
   methods: {
     ...mapActions("auth", [
@@ -160,12 +174,22 @@ export default {
       "updateDefaultActiveGroup",
       "loginUsingToken"
     ]),
+    filterSearch: debounce(function() {
+      this.fetchUsers();
+    }, 500),
+    async fetchUsers() {
+      this.mutableUsers = this.activeGroup.users;
+      this.mutableUsers = this.activeGroup.users.filter(o =>
+        Object.keys(o).some(k => o[k].includes(this.search))
+      );
+    },
     updateGroup(group) {
       cookie.set("activeGroupId", group._id);
       this.updateActiveGroup(group);
     },
     async addedUser() {
-      this.loginUsingToken();
+      await this.loginUsingToken();
+      this.fetchUsers();
     },
     onDeleteUser(user) {
       this.$refs.deleteConfirmationRef.open(
@@ -192,7 +216,8 @@ export default {
         }
 
         if (result.status === 200) {
-          this.loginUsingToken();
+          await this.loginUsingToken();
+          this.fetchUsers();
         }
       } catch (error) {
         console.log(error);
