@@ -7,8 +7,8 @@
     <div
       class="flex flex-col w-full max-w-screen-sm p-4 space-y-3 bg-white rounded-md"
     >
-      <div class="flex items-center justify-between">
-        <h2 class="heading-3">REGISTRATION SUCCESS</h2>
+      <div class="flex items-start justify-between">
+        <h2 class="uppercase heading-3">REGISTRATION SUCCESS</h2>
       </div>
       <div class="flex flex-col py-0 space-y-4">
         <div class="flex flex-col space-y-1">
