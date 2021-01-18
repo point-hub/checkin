@@ -12,8 +12,7 @@ instance.resetToken = () => {
     "Bearer " + cookie.get("token");
 };
 
-instance.defaults.headers.common.Authorization =
-  "Bearer " + cookie.get("token");
+instance.resetToken();
 
 instance.interceptors.request.use(
   config => {
@@ -38,10 +37,9 @@ instance.interceptors.response.use(
     return response;
   },
   function(error) {
-    console.log(error);
     if (!error.response) {
       // Network error
-      // router.replace('/503')
+      router.push("/auth/login");
       return Promise.reject(error);
     } else {
       // If reponse is unauthorized (401) then redirect user to login page
