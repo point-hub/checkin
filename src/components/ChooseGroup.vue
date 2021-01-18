@@ -21,7 +21,15 @@
           create a new one
         </button>
       </div>
-      <div class="flex flex-col py-8 space-y-4">
+      <div class="pt-4">
+        <input
+          type="text"
+          v-model="search"
+          class="w-full px-4 py-2 border"
+          placeholder="search"
+        />
+      </div>
+      <div class="flex flex-col pb-4 space-y-4 overflow-auto">
         <div class="flex" v-for="(group, index) in groups" :key="index">
           <button
             @click="chooseGroup(group)"
@@ -112,6 +120,7 @@ import CreateGroup from "./CreateGroup";
 import RenameGroup from "./RenameGroup";
 import DeleteConfirmation from "./DeleteConfirmation";
 import axios from "@/axios";
+import debounce from "lodash/debounce";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -122,7 +131,8 @@ export default {
   },
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      search: null
     };
   },
   computed: {
@@ -147,6 +157,9 @@ export default {
     fetchGroups() {
       this.loginUsingToken();
     },
+    searchGroup: debounce(function() {
+      this.search;
+    }, 500),
     async acceptInvite(id) {
       const result = await axios.put(`/groups/${id}/acceptInvite`);
       if (result.status === 200) {
