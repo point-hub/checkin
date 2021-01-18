@@ -50,7 +50,9 @@
           </div>
           <button
             class="px-2 focus:outline-none flex-0"
-            v-if="activeGroup.users"
+            v-if="
+              activeGroup.users && activeGroup.createdBy_id === authUser._id
+            "
             @click="$refs.addUserRef.open(activeGroup._id)"
           >
             <svg
@@ -89,7 +91,14 @@
                 </span>
               </div>
             </div>
-            <button class="px-1" @click="onDeleteUser(user)">
+            <button
+              class="px-1"
+              @click="onDeleteUser(user)"
+              v-if="
+                activeGroup.createdBy_id === authUser._id &&
+                  activeGroup.createdBy_id !== user._id
+              "
+            >
               <svg
                 aria-hidden="true"
                 focusable="false"
