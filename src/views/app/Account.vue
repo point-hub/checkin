@@ -178,10 +178,21 @@ export default {
       this.fetchUsers();
     }, 500),
     async fetchUsers() {
-      this.mutableUsers = this.activeGroup.users;
-      this.mutableUsers = this.activeGroup.users.filter(o =>
-        Object.keys(o).some(k => o[k].includes(this.search))
-      );
+      const searchableKey = ["firstName", "lastName", "email"];
+      this.mutableUsers = this.activeGroup.users.filter(user => {
+        return searchableKey.some(key => {
+          if (user[key] === undefined) return false;
+          return this.textInField(user[key], this.search);
+        });
+      });
+    },
+    textInField(field, search) {
+      if (search === "") return true;
+      const splittedSearch = search.trim().split(" ");
+      return splittedSearch.some(value => {
+        if (value === "") return false;
+        return field?.toLowerCase().includes(value.toLowerCase());
+      });
     },
     updateGroup(group) {
       cookie.set("activeGroupId", group._id);

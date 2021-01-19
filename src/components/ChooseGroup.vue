@@ -158,13 +158,22 @@ export default {
     },
     async fetchGroups() {
       await this.loginUsingToken();
-      this.mutableGroups = this.groups;
-      this.mutableGroups = this.groups.filter(o =>
-        Object.keys(o).some(k => o[k].includes(this.search))
-      );
+      const searchableKey = ["name"];
+      this.mutableGroups = this.groups.filter(group => {
+        return searchableKey.some(key => {
+          if (group[key] === undefined) return false;
+          return group[key].includes(this.search);
+        });
+      });
     },
     filterSearch: debounce(function() {
-      this.fetchGroups();
+      const searchableKey = ["name"];
+      this.mutableGroups = this.groups.filter(group => {
+        return searchableKey.some(key => {
+          if (group[key] === undefined) return false;
+          return group[key].includes(this.search);
+        });
+      });
     }, 500),
     async acceptInvite(id) {
       const result = await axios.put(`/groups/${id}/acceptInvite`);
