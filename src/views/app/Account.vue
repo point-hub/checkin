@@ -197,6 +197,7 @@ export default {
     updateGroup(group) {
       cookie.set("activeGroupId", group._id);
       this.updateActiveGroup(group);
+      this.fetchUsers();
     },
     async addedUser() {
       await this.loginUsingToken();
