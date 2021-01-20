@@ -165,13 +165,11 @@ export default {
         const result = await axios.post("/auth/register", this.form);
         if (result.status === 201) {
           Object.assign(this.$data, this.$options.data.call(this));
-          this.$refs.loadingRef.close();
           this.$refs.signupSuccessRef.open();
-        } else {
-          this.errorMessage = result.data.error.message;
-          this.$refs.loadingRef.close();
         }
       } catch (error) {
+        this.errorMessage = error.data.error.message;
+      } finally {
         this.$refs.loadingRef.close();
       }
     },
