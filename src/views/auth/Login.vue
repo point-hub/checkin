@@ -18,7 +18,7 @@
           <input
             type="email"
             v-model="form.email"
-            class="p-2 my-1 text-black border-2 border-gray-400 rounded-md"
+            class="p-2 my-1 text-black lowercase border-2 border-gray-400 rounded-md"
           />
         </div>
         <div class="my-2">

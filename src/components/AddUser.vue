@@ -17,7 +17,7 @@
           <input
             type="text"
             v-model="form.email"
-            class="px-2 py-2 border border-gray-500"
+            class="px-2 py-2 lowercase border border-gray-500"
           />
         </div>
         <div>
