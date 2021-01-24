@@ -32,7 +32,6 @@
             name="notes"
             class="w-full text-sm border-0"
             readonly
-            rows="4"
             v-model="item.notes"
           ></textarea>
         </div>
@@ -58,6 +57,13 @@ export default {
   computed: {
     ...mapGetters("auth", ["activeGroup"])
   },
+  updated() {
+    let els = document.getElementsByTagName(`textarea`);
+    for (let i = 0; i < els.length; i++) {
+      els[i].style.height = `1px`;
+      els[i].style.height = `${els[i].scrollHeight}px`;
+    }
+  },
   async mounted() {
     try {
       this.$refs.loadingRef.open();
@@ -68,10 +74,8 @@ export default {
       });
       if (result.status === 200) {
         this.data = result.data.data;
-        this.$refs.loadingRef.close();
       }
-      this.$refs.loadingRef.close();
-    } catch (error) {
+    } finally {
       this.$refs.loadingRef.close();
     }
   }

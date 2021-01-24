@@ -29,7 +29,8 @@
         <div>
           <label for="notes" class="heading-3">Notes</label>
           <textarea
-            rows="10"
+            @input="autosize"
+            id="notes"
             class="w-full p-2 mt-2"
             v-model="form.notes"
           ></textarea>
@@ -115,7 +116,15 @@ export default {
   computed: {
     ...mapGetters("auth", ["activeGroup"])
   },
+  mounted() {
+    this.autosize();
+  },
   methods: {
+    autosize() {
+      let el = document.getElementById(`notes`);
+      el.style.height = `1px`;
+      el.style.height = `${el.scrollHeight}px`;
+    },
     async save() {
       try {
         this.$refs.loadingRef.open();
