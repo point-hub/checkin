@@ -7,19 +7,19 @@ const instance = axios.create({
   timeout: 600 * 2 * 1000 // 2 minutes
 });
 
-instance.resetToken = () => {
-  instance.defaults.headers.common.Authorization =
-    "Bearer " + cookie.get("token");
-};
-
-instance.resetToken();
-
 instance.interceptors.request.use(
   config => {
     if (process.env.NODE_ENV !== "production") {
       console.log("Request: ", config.url);
       console.log("Request: ", config);
     }
+
+    // Add auth token
+    const token = cookie.get("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   function(error) {

@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import AppLayout from "@/layouts/AppLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import GuestLayout from "@/layouts/GuestLayout.vue";
-import axios from "@/axios";
 import store from "@/store";
 
 const routes = [
@@ -32,7 +31,6 @@ const routes = [
       }
     ],
     beforeEnter: async (to, from, next) => {
-      axios.resetToken();
       await store.dispatch("auth/loginUsingToken");
       next();
     }

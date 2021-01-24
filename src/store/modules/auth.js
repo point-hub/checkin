@@ -43,7 +43,6 @@ const actions = {
       });
       if (result.status === 200) {
         cookie.set("token", result.data.data.token);
-        axios.resetToken();
         dispatch("updateAuthUser", result.data.data);
         dispatch("updateUserGroups", result.data.includes.groups);
         dispatch("updateDefaultActiveGroup", result.data.includes.groups);
