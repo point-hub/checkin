@@ -109,6 +109,7 @@ export default {
         lat: null,
         lng: null,
         address: null,
+        addressComponents: [],
         notes: null
       }
     };
@@ -152,6 +153,7 @@ export default {
           if (status === "OK") {
             if (results[0]) {
               this.form.address = results[0].formatted_address;
+              this.form.addressComponents = results[0].address_components;
             } else {
               window.alert("No results found");
             }
