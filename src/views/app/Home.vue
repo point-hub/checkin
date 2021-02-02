@@ -1,21 +1,27 @@
 <template>
   <div class="flex flex-col items-center w-full h-full">
-    <div class="flex justify-between w-full">
+    <div class="flex justify-between w-full p-4">
       <div></div>
-      <div class="flex p-3 space-x-3">
-        <!-- <button class="px-2 text-sm border border-black rounded">
+      <div class="flex space-x-3">
+        <button
+          class="px-2 py-1 text-sm text-gray-100 bg-red-500 rounded"
+          @click="$refs.filterRef.open()"
+        >
           FILTER
         </button>
-        <button class="px-2 text-sm border border-black rounded">
+        <button
+          class="px-2 py-1 text-sm text-gray-100 bg-blue-500 rounded"
+          @click="exportData"
+        >
           EXPORT
-        </button> -->
+        </button>
         <button @click="isListView = true">
           <svg
             aria-hidden="true"
             focusable="false"
             data-prefix="fal"
             data-icon="window-maximize"
-            class="w-6 h-6"
+            class="w-5 h-5"
             role="img"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -32,7 +38,7 @@
             focusable="false"
             data-prefix="fal"
             data-icon="table"
-            class="w-6 h-6"
+            class="w-5 h-5"
             role="img"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -62,8 +68,12 @@
                 <span class="text-xs">@{{ item.user.username }}</span>
               </div>
               <div class="flex flex-col justify-center mr-4 text-xs text-right">
-                <div>{{ dayjs(item.createdAt).format("DD MMM YYYY") }}</div>
-                <div>{{ dayjs(item.createdAt).format("HH:mm") }}</div>
+                <div class="font-bold uppercase">
+                  {{ dayjs(item.createdAt).format("DD MMM YYYY") }}
+                </div>
+                <div class="text-gray-500">
+                  {{ dayjs(item.createdAt).format("HH:mm") }}
+                </div>
               </div>
             </div>
           </div>
@@ -115,11 +125,17 @@
       </template>
     </div>
     <Loading ref="loadingRef"></Loading>
+    <Filter ref="filterRef" @submitted="onFilter"></Filter>
+    <Export ref="exportRef"></Export>
+    <Subscribe ref="subscribeRef"></Subscribe>
   </div>
 </template>
 <script>
 import axios from "@/axios";
 import Loading from "@/components/Loading";
+import Export from "@/components/Export";
+import Filter from "@/components/Filter";
+import Subscribe from "@/components/Subscribe";
 import { mapGetters } from "vuex";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -127,32 +143,31 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 export default {
   name: "Home",
   components: {
-    Loading
+    Loading,
+    Export,
+    Filter,
+    Subscribe
   },
   data() {
     return {
       data: [],
-      isListView: true
+      filter: {
+        dateFrom: dayjs().startOf("month"),
+        dateTo: dayjs().endOf("month"),
+        user: {
+          username: null
+        }
+      },
+      isListView: true,
+      isSubscribed: false
     };
   },
   computed: {
     ...mapGetters("auth", ["activeGroup"])
   },
   async mounted() {
-    try {
-      dayjs.extend(customParseFormat);
-      this.$refs.loadingRef.open();
-      const result = await axios.get("/checkins", {
-        params: {
-          group_id: this.activeGroup._id
-        }
-      });
-      if (result.status === 200) {
-        this.data = result.data.data;
-      }
-    } finally {
-      this.$refs.loadingRef.close();
-    }
+    dayjs.extend(customParseFormat);
+    await this.getData();
   },
   updated() {
     let els = document.getElementsByTagName(`textarea`);
@@ -162,7 +177,39 @@ export default {
     }
   },
   methods: {
-    dayjs: dayjs
+    dayjs: dayjs,
+    async getData() {
+      try {
+        dayjs.extend(customParseFormat);
+        this.$refs.loadingRef.open();
+        const result = await axios.get("/checkins", {
+          params: {
+            group_id: this.activeGroup._id,
+            filter: {
+              createdAt: {
+                ":gte": this.filter.dateFrom,
+                ":lte": this.filter.dateTo
+              },
+              "user.username": this.filter.user?.username ?? null
+            }
+          }
+        });
+        this.data = result.data.data;
+      } finally {
+        this.$refs.loadingRef.close();
+      }
+    },
+    exportData() {
+      if (this.isSubscribed) {
+        this.$refs.exportRef.open();
+      } else {
+        this.$refs.subscribeRef.open();
+      }
+    },
+    onFilter(filter) {
+      this.filter = filter;
+      this.getData();
+    }
   }
 };
 </script>
