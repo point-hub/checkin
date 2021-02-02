@@ -184,8 +184,8 @@ export default {
         this.$refs.loadingRef.open();
         const result = await axios.get("/checkins", {
           params: {
-            group_id: this.activeGroup._id,
             filter: {
+              group_id: this.activeGroup._id,
               createdAt: {
                 ":gte": this.filter.dateFrom,
                 ":lte": this.filter.dateTo
