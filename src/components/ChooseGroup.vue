@@ -30,11 +30,11 @@
           placeholder="search"
         />
       </div>
-      <div class="flex flex-col pb-4 space-y-4 overflow-auto">
+      <div class="flex flex-col pb-4 overflow-auto">
         <div class="flex" v-for="(group, index) in mutableGroups" :key="index">
           <button
             @click="chooseGroup(group)"
-            class="flex-1 p-2 text-sm text-left border border-gray-100 shadow"
+            class="flex-1 p-4 text-sm text-left border border-gray-200"
           >
             {{ group.name }}
           </button>
@@ -162,7 +162,7 @@ export default {
       this.mutableGroups = this.groups.filter(group => {
         return searchableKey.some(key => {
           if (group[key] === undefined) return false;
-          return group[key].includes(this.search);
+          return group[key].toLowerCase().includes(this.search.toLowerCase());
         });
       });
     },
@@ -171,7 +171,7 @@ export default {
       this.mutableGroups = this.groups.filter(group => {
         return searchableKey.some(key => {
           if (group[key] === undefined) return false;
-          return group[key].includes(this.search);
+          return group[key].toLowerCase().includes(this.search.toLowerCase());
         });
       });
     }, 500),
