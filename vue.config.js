@@ -13,6 +13,7 @@ module.exports = {
     resolve: { symlinks: false }
   },
   pwa: {
+    name: "Point Checkin",
     workboxPluginMode: "InjectManifest",
     workboxOptions: {
       swSrc: "src/service-worker.js"
