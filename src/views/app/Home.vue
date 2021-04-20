@@ -9,12 +9,12 @@
         >
           FILTER
         </button>
-        <button
+        <!-- <button
           class="px-2 py-1 text-sm text-gray-100 bg-blue-500 rounded"
           @click="exportData"
         >
           EXPORT
-        </button>
+        </button> -->
         <button @click="isListView = true">
           <svg
             aria-hidden="true"
