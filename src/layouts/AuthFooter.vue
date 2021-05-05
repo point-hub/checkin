@@ -6,6 +6,9 @@
         <router-link to="/terms">
           Terms
         </router-link>
+        <router-link to="/support">
+          Support
+        </router-link>
       </div>
       <div>
         <span class="" to="/policy">v{{ version }}</span>
