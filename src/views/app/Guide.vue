@@ -11,7 +11,7 @@
             <div class="flex items-center justify-between w-full">
               <router-link
                 to="/guide/how-to-verify-email"
-                class="text-gray-800"
+                class="w-full text-gray-800"
               >
                 Cara verifikasi email
               </router-link>
@@ -20,7 +20,7 @@
             <div class="flex items-center justify-between w-full">
               <router-link
                 to="/guide/how-to-create-group"
-                class="text-gray-800"
+                class="w-full text-gray-800"
               >
                 Cara membuat grup baru
               </router-link>

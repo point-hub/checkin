@@ -13,7 +13,7 @@
               email anda
             </p>
 
-            <h2 class="font-bold">
+            <h2 class="pt-5 font-bold">
               1. Registrasi Akun Baru
             </h2>
             <p>
@@ -27,14 +27,14 @@
               gunakan
             </p>
 
-            <h2 class="font-bold">
+            <h2 class="pt-5 font-bold">
               2. Buka email dan klik link verifikasi
             </h2>
             <img src="/img/guides/how-to-verify-email/2.1.png" alt="" />
             <br />
             <img src="/img/guides/how-to-verify-email/2.2.png" alt="" />
 
-            <h2 class="font-bold">
+            <h2 class="pt-5 font-bold">
               3. Akun email telah terverifikasi
             </h2>
             <p>
