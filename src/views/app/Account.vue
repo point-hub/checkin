@@ -127,6 +127,103 @@
           </div>
         </div>
       </div>
+      <div
+        class="flex flex-col justify-center flex-shrink-0 w-full p-2 my-1 text-gray-800 bg-white shadow"
+      >
+        <div class="flex flex-col flex-1 p-2 pl-5 space-y-2 text-left">
+          <div
+            class="flex flex-col items-center justify-between py-3 space-y-5 text-lg"
+          >
+            <router-link
+              to="/guide"
+              class="flex items-center justify-between w-full"
+            >
+              <p class="font-light text-gray-600">Guide</p>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="chevron-right"
+                class="w-5 h-5 text-gray-400"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+                ></path>
+              </svg>
+            </router-link>
+            <hr class="w-full text-gray-500" />
+            <router-link
+              to="/coming-soon"
+              class="flex items-center justify-between w-full"
+            >
+              <p class="font-light text-gray-600">FAQ</p>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="chevron-right"
+                class="w-5 h-5 text-gray-400"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+                ></path>
+              </svg>
+            </router-link>
+            <hr class="w-full text-gray-500" />
+            <router-link
+              to="/coming-soon"
+              class="flex items-center justify-between w-full"
+            >
+              <p class="font-light text-gray-600">Share Feedback</p>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="chevron-right"
+                class="w-5 h-5 text-gray-400"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+                ></path>
+              </svg>
+            </router-link>
+            <hr class="w-full text-gray-500" />
+            <router-link
+              to="/coming-soon"
+              class="flex items-center justify-between w-full"
+            >
+              <p class="font-light text-gray-600">Contact Us</p>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="chevron-right"
+                class="w-5 h-5 text-gray-400"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+                ></path>
+              </svg>
+            </router-link>
+          </div>
+        </div>
+      </div>
     </div>
     <add-user ref="addUserRef" @added="addedUser($event)"></add-user>
     <choose-group

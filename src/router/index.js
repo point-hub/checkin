@@ -28,6 +28,26 @@ const routes = [
         path: "account",
         name: "Account",
         component: () => import("@/views/app/Account")
+      },
+      {
+        path: "coming-soon",
+        name: "ComingSoon",
+        component: () => import("@/views/app/ComingSoon")
+      },
+      {
+        path: "guide",
+        name: "Guide",
+        component: () => import("@/views/app/Guide")
+      },
+      {
+        path: "guide/how-to-verify-email",
+        name: "HowToVerifyEmail",
+        component: () => import("@/views/app/guides/HowToVerifyEmail")
+      },
+      {
+        path: "guide/how-to-create-group",
+        name: "HowToCreateGroup",
+        component: () => import("@/views/app/guides/HowToCreateGroup")
       }
     ],
     beforeEnter: async (to, from, next) => {
