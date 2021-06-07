@@ -201,7 +201,7 @@
             </router-link>
             <hr class="w-full text-gray-500" />
             <router-link
-              to="/coming-soon"
+              to="/contact"
               class="flex items-center justify-between w-full"
             >
               <p class="font-light text-gray-600">Contact Us</p>

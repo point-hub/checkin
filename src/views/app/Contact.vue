@@ -8,7 +8,10 @@
           <div
             class="flex flex-col items-center justify-center h-full py-3 space-y-3 text-lg"
           >
-            <h1 class="text-4xl font-extrabold">Coming Soon</h1>
+            <h1 class="text-4xl font-extrabold">POINT HR</h1>
+            <p class="text-xl">Jl. Musi no 21, Surabaya, Indonesia</p>
+            <p class="text-xl">info@pointhr.net</p>
+            <p class="text-xl">(+62) 811-3399-578</p>
           </div>
         </div>
       </div>
