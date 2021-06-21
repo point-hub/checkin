@@ -108,6 +108,18 @@
         <p class="p-2 text-white bg-red-500" v-if="errorMessage">
           {{ errorMessage }}
         </p>
+        <vue-recaptcha
+          v-if="showRecaptcha"
+          :siteKey="recaptchaKey"
+          size="normal"
+          theme="light"
+          :tabindex="0"
+          @verify="recaptchaVerified"
+          @expire="recaptchaExpired"
+          @fail="recaptchaFailed"
+          ref="vueRecaptcha"
+        >
+        </vue-recaptcha>
         <button
           class="p-2 my-4 font-bold text-white uppercase rounded-md bg-primary"
           @click="register()"
@@ -135,12 +147,14 @@ import AuthFooter from "@/layouts/AuthFooter";
 import axios from "@/axios";
 import Loading from "@/components/Loading";
 import SignupSuccess from "./_components/SignupSuccess";
+import VueRecaptcha from "vue3-recaptcha2";
 
 export default {
   name: "Registration",
   components: {
     AuthFooter,
     SignupSuccess,
+    VueRecaptcha,
     Loading
   },
   data() {
@@ -148,16 +162,28 @@ export default {
       inputTypePassword: "password",
       errorMessage: "",
       password: "",
+      showRecaptcha: true,
+      recaptchaKey: process.env.VUE_APP_GRECAPTCHA,
       form: {
         email: "",
         username: "",
         firstName: "",
         lastName: "",
-        password: ""
+        password: "",
+        recaptcha: null
       }
     };
   },
   methods: {
+    recaptchaVerified(response) {
+      this.form.recaptcha = response;
+    },
+    recaptchaExpired() {
+      this.$refs.vueRecaptcha.reset();
+    },
+    recaptchaFailed() {
+      this.$refs.vueRecaptcha.reset();
+    },
     async register() {
       try {
         this.$refs.loadingRef.open();

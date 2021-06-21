@@ -11238,6 +11238,11 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
+vue3-recaptcha2@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/vue3-recaptcha2/-/vue3-recaptcha2-1.2.0.tgz#3ad07a4bf486d80fb80806815fd30ba1553f7417"
+  integrity sha512-k3sucX/PEGnk6ZpYGnpsr+kPHYNN40HoUbqvO1FT/WQrXdO83HHBDnql/dr8x7KkV2ZSdzxFrltDkOyTRGPSIw==
+
 vue@^3.0.0, vue@^3.0.0-0:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.0.5.tgz#de1b82eba24abfe71e0970fc9b8d4b2babdc3fe1"

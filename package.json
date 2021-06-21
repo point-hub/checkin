@@ -1,11 +1,11 @@
 {
   "name": "@point-hub/checkin",
-  "version": "0.4.17",
+  "version": "0.4.18",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:https": "vue-cli-service serve --https",
-    "build": "yarn;vue-cli-service build --dest build/0.4.17",
+    "build": "yarn;vue-cli-service build --dest build/0.4.18",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
@@ -24,6 +24,7 @@
     "vue": "^3.0.0",
     "vue-gtag-next": "^1.14.0",
     "vue-router": "^4.0.0-0",
+    "vue3-recaptcha2": "^1.2.0",
     "vuex": "^4.0.0-0",
     "yarn": "^1.22.10"
   },
