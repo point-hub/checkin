@@ -98,6 +98,13 @@
             ></textarea>
           </div>
         </div>
+        <button
+          ref="loadMoreButtonRef"
+          class="w-full p-2 text-white bg-gray-500 outline-none"
+          @click="loadMore()"
+        >
+          Load More
+        </button>
       </template>
       <template v-else>
         <table class="">
@@ -122,8 +129,17 @@
             </tr>
           </tbody>
         </table>
+
+        <button
+          ref="loadMoreButtonRef"
+          class="w-full p-2 text-white bg-gray-500 outline-none"
+          @click="loadMore()"
+        >
+          Load More
+        </button>
       </template>
     </div>
+
     <Loading ref="loadingRef"></Loading>
     <Filter ref="filterRef" @submitted="onFilter"></Filter>
     <Export ref="exportRef"></Export>
@@ -159,7 +175,9 @@ export default {
         }
       },
       isListView: true,
-      isSubscribed: false
+      isSubscribed: false,
+      page: 1,
+      limit: 20
     };
   },
   computed: {
@@ -178,10 +196,17 @@ export default {
   },
   methods: {
     dayjs: dayjs,
+    async loadMore() {
+      await this.getData();
+    },
     async getData() {
       try {
         dayjs.extend(customParseFormat);
-        this.$refs.loadingRef.open();
+        if (this.data.length > 0) {
+          this.page += 1;
+        } else {
+          this.$refs.loadingRef.open();
+        }
         const result = await axios.get("/checkins", {
           params: {
             filter: {
@@ -191,10 +216,18 @@ export default {
                 ":lte": this.filter.dateTo
               },
               "user.username": this.filter.user?.username ?? null
-            }
+            },
+            limit: this.limit,
+            page: this.page
           }
         });
-        this.data = result.data.data;
+        if (result.data.totalPage > result.data.page) {
+          this.$refs.loadMoreButtonRef.style.visibility = "";
+        } else {
+          this.$refs.loadMoreButtonRef.style.visibility = "hidden";
+        }
+        this.data.concat(result.data.data);
+        Array.prototype.push.apply(this.data, result.data.data);
       } finally {
         this.$refs.loadingRef.close();
       }
