@@ -20,6 +20,9 @@
             v-model="form.email"
             class="p-2 my-1 text-black lowercase border-2 border-gray-400 rounded-md"
           />
+          <p v-if="form.errors.has('email')" class="italic text-red-500">
+            {{ form.errors.get("email")[0] }}
+          </p>
         </div>
         <div class="flex flex-col my-2">
           <label class="text-xs uppercase" for="username">
@@ -30,6 +33,9 @@
             v-model="form.username"
             class="p-2 my-1 text-black lowercase border-2 border-gray-400 rounded-md"
           />
+          <p v-if="form.errors.has('username')" class="italic text-red-500">
+            {{ form.errors.get("username")[0] }}
+          </p>
         </div>
         <div class="flex flex-col my-2">
           <label class="text-xs uppercase" for="username">
@@ -40,6 +46,9 @@
             v-model="form.firstName"
             class="p-2 my-1 text-black border-2 border-gray-400 rounded-md"
           />
+          <p v-if="form.errors.has('firstName')" class="italic text-red-500">
+            {{ form.errors.get("firstName")[0] }}
+          </p>
         </div>
         <div class="flex flex-col my-2">
           <label class="text-xs uppercase" for="username">
@@ -50,6 +59,9 @@
             v-model="form.lastName"
             class="p-2 my-1 text-black border-2 border-gray-400 rounded-md"
           />
+          <p v-if="form.errors.has('lastName')" class="italic text-red-500">
+            {{ form.errors.get("lastName")[0] }}
+          </p>
         </div>
         <div class="flex flex-col my-2">
           <label class="text-xs uppercase" for="password">
@@ -63,6 +75,9 @@
               autocomplete="off"
               class="w-full p-2 my-1 text-black border-2 border-gray-400 rounded-md "
             />
+            <p v-if="form.errors.has('password')" class="italic text-red-500">
+              {{ form.errors.get("password")[0] }}
+            </p>
             <button
               type="button"
               class="absolute right-0 p-2 m-2"
@@ -108,6 +123,7 @@
         <p class="p-2 text-white bg-red-500" v-if="errorMessage">
           {{ errorMessage }}
         </p>
+        <br />
         <vue-recaptcha
           v-if="showRecaptcha"
           :siteKey="recaptchaKey"
@@ -148,6 +164,7 @@ import axios from "@/axios";
 import Loading from "@/components/Loading";
 import SignupSuccess from "./_components/SignupSuccess";
 import VueRecaptcha from "vue3-recaptcha2";
+import Form from "@/lib/Form.js";
 
 export default {
   name: "Registration",
@@ -164,14 +181,14 @@ export default {
       password: "",
       showRecaptcha: true,
       recaptchaKey: process.env.VUE_APP_GRECAPTCHA,
-      form: {
+      form: new Form({
         email: "",
         username: "",
         firstName: "",
         lastName: "",
         password: "",
         recaptcha: null
-      }
+      })
     };
   },
   methods: {
@@ -195,6 +212,9 @@ export default {
         }
       } catch (error) {
         this.errorMessage = error.data.error.message;
+        if (error.data.error.code === 422) {
+          this.form.errors.record(error.data.error.errors);
+        }
       } finally {
         this.$refs.loadingRef.close();
       }
