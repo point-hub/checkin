@@ -197,16 +197,13 @@ export default {
   methods: {
     dayjs: dayjs,
     async loadMore() {
+      this.page += 1;
       await this.getData();
     },
     async getData() {
       try {
         dayjs.extend(customParseFormat);
-        if (this.data.length > 0) {
-          this.page += 1;
-        } else {
-          this.$refs.loadingRef.open();
-        }
+        this.$refs.loadingRef.open();
         const result = await axios.get("/checkins", {
           params: {
             filter: {
@@ -240,6 +237,7 @@ export default {
       }
     },
     onFilter(filter) {
+      this.data = [];
       this.filter = filter;
       this.getData();
     }
