@@ -121,7 +121,7 @@
       <p>
         12. Biaya Layanan adalah biaya yang dikenakan kepada Pengguna untuk
         tujuan pemeliharaan sistem dan peningkatan layanan dalam bertransaksi
-        melalui Situs Tokopedia
+        melalui Situs Point Hub
       </p>
     </div>
   </div>
