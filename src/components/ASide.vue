@@ -32,7 +32,16 @@
               </svg>
             </button>
           </div>
-          <div class="flex-1"></div>
+          <div class="flex-1">
+            <div class="p-2 bg-white">
+              <h1 class="text-sm font-bold">Update 0.4.24</h1>
+              <ol class="mt-1">
+                <li class="text-sm">
+                  Fix feature filter to show relevant data
+                </li>
+              </ol>
+            </div>
+          </div>
           <div class="p-2">
             <div class="flex flex-col flex-1 px-1 text-right">
               <p class="text-xs font-bold">v{{ version }}</p>
