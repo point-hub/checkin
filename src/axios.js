@@ -39,7 +39,6 @@ instance.interceptors.response.use(
   function(error) {
     if (!error.response) {
       // Network error
-      router.push("/auth/login");
       return Promise.reject(error);
     } else {
       // If reponse is unauthorized (401) then redirect user to login page

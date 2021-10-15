@@ -35,6 +35,9 @@
             v-model="form.notes"
           ></textarea>
         </div>
+        <p class="text-xs font-bold text-red-700" v-if="errorMessage">
+          {{ errorMessage }}
+        </p>
         <button
           class="w-full p-2 mt-4 font-bold text-white uppercase rounded-md bg-primary"
           @click="save()"
@@ -104,6 +107,7 @@ export default {
       autocomplete: null,
       infoWindow: null,
       marker: null,
+      errorMessage: null,
       form: {
         photo: null,
         lat: null,
@@ -139,6 +143,10 @@ export default {
         }
         this.$refs.loadingRef.close();
       } catch (error) {
+        if (!error.response) {
+          this.errorMessage =
+            "Network error, please check your internet connection";
+        }
         this.$refs.loadingRef.close();
       }
     },

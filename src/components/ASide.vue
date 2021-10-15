@@ -32,7 +32,16 @@
               </svg>
             </button>
           </div>
-          <div class="flex-1">
+          <div class="flex-1 space-y-2">
+            <div class="p-2 bg-white">
+              <h1 class="text-sm font-bold">Update 0.4.25</h1>
+              <ol class="mt-1">
+                <li class="text-sm">
+                  Network connection error now return error message instead of
+                  redirect user to login page
+                </li>
+              </ol>
+            </div>
             <div class="p-2 bg-white">
               <h1 class="text-sm font-bold">Update 0.4.24</h1>
               <ol class="mt-1">
