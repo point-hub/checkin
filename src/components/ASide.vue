@@ -40,11 +40,12 @@
               <ol class="mt-1">
                 <li class="text-sm">
                   <a
+                    class="text-blue-700"
                     href="https://www.opinionstage.com/point1/ingin-mendapat-manfaat-lebih-dari-point-checkin-"
                   >
-                    KLIK
+                    klik disini
                   </a>
-                  disini untuk mengisi questionnaire singkat ini!
+                  untuk mengisi questionnaire singkat ini!
                 </li>
               </ol>
             </div>
