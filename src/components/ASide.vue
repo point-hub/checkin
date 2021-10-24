@@ -34,6 +34,21 @@
           </div>
           <div class="flex-1 space-y-2">
             <div class="p-2 bg-white">
+              <h1 class="text-sm font-bold">
+                Ingin manfaat lebih dari Point Checkin?
+              </h1>
+              <ol class="mt-1">
+                <li class="text-sm">
+                  <a
+                    href="https://www.opinionstage.com/point1/ingin-mendapat-manfaat-lebih-dari-point-checkin-"
+                  >
+                    KLIK
+                  </a>
+                  disini untuk mengisi questionnaire singkat ini!
+                </li>
+              </ol>
+            </div>
+            <div class="p-2 bg-white">
               <h1 class="text-sm font-bold">Update 0.4.25</h1>
               <ol class="mt-1">
                 <li class="text-sm">
