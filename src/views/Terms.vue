@@ -22,27 +22,27 @@
         dianggap telah membaca, mengerti, memahami dan menyetujui semua isi
         dalam Syarat & ketentuan. Syarat & ketentuan ini merupakan bentuk
         kesepakatan yang dituangkan dalam sebuah perjanjian yang sah antara
-        Pengguna dengan PT.Bumi Ganapatih Digdaya. Jika pengguna tidak
+        Pengguna dengan PT.Bumi Inovasi Ganapatih. Jika pengguna tidak
         menyetujui salah satu, sebagian, atau seluruh isi Syarat & ketentuan,
         maka pengguna tidak diperkenankan menggunakan layanan CHECKIN.
       </p>
     </div>
     <div class="p-4 my-2 text-sm text-gray-700 bg-gray-100 rounded-md">
       <p>
-        1. PT. Bumi Ganapatih Digdaya merupakan suatu perseroan terbatas yang
+        1. PT. Bumi Inovasi Ganapatih merupakan suatu perseroan terbatas yang
         menjalankan kegiatan usaha dalam bidang Teknologi
       </p>
     </div>
     <div class="p-4 my-2 text-sm text-gray-700 bg-gray-100 rounded-md">
       <p>
-        2. Situs Resmi PT.Bumi Ganapatih Digdaya yaitu pointhub.net
+        2. Situs Resmi PT.Bumi Inovasi Ganapatih yaitu pointhub.net
       </p>
     </div>
     <div class="p-4 my-2 text-sm text-gray-700 bg-gray-100 rounded-md">
       <p>
         3. Syarat & ketentuan adalah perjanjian antara Pengguna dan PT.Bumi
-        Ganapatih Digdaya yang berisikan seperangkat peraturan yang mengatur
-        hak, kewajiban, tanggung jawab pengguna dan PT.Bumi Ganapatih Digdaya,
+        Inovasi Ganapatih yang berisikan seperangkat peraturan yang mengatur
+        hak, kewajiban, tanggung jawab pengguna dan PT.Bumi Inovasi Ganapatih,
         serta tata cara penggunaan sistem CHECKIN
       </p>
     </div>
@@ -55,7 +55,7 @@
         beriklan atau melakukan promosi ke situs selain Situs CHECKIN, atau
         hal-hal lain yang dapat dianggap tidak sesuai dengan nilai dan norma
         sosial maupun berdasarkan kebijakan yang ditentukan sendiri oleh
-        CHECKIN. PT. Bumi Ganapatih Digdaya berhak melakukan tindakan yang
+        CHECKIN. PT. Bumi Inovasi Ganapatih berhak melakukan tindakan yang
         diperlukan atas pelanggaran.
       </p>
     </div>
@@ -76,7 +76,7 @@
     </div>
     <div class="p-4 my-2 text-sm text-gray-700 bg-gray-100 rounded-md">
       <p>
-        7. PT.Bumi Ganapatih Digdaya berhak untuk sewaktu-waktu menurunkan
+        7. PT.Bumi Inovasi Ganapatih berhak untuk sewaktu-waktu menurunkan
         konten atau materi yang terdapat pada Feed yang dianggap melanggar
         Syarat dan Ketentuan Situs, peraturan hukum yang berlaku, serta etika
         pariwara yang berlaku

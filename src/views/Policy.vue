@@ -18,9 +18,9 @@
     </div>
     <div class="p-4 mb-4 text-sm text-gray-700 bg-gray-100 rounded-md">
       <p class="my-2">
-        Adanya Kebijakan Privasi ini adalah komitmen nyata dari PT.Bumi
-        Ganapatih Digdaya untuk menghargai dan melindungi setiap data atau
-        informasi pribadi Pengguna situs CHECKIN. Kebijakan Privasi ini (beserta
+        Adanya Kebijakan Privasi ini adalah komitmen nyata dari PT.Bumi Inovasi
+        Ganapatih untuk menghargai dan melindungi setiap data atau informasi
+        pribadi Pengguna situs CHECKIN. Kebijakan Privasi ini (beserta
         syarat-syarat penggunaan dari situs CHECKIN sebagaimana tercantum dalam
         "Syarat & Ketentuan" dan informasi lain yang tercantum di Situs)
         menetapkan dasar atas perolehan, pengumpulan, pengolahan,
