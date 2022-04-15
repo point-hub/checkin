@@ -83,8 +83,8 @@
             <img :src="item.photo" class="w-full sm:w-1/3" alt="" />
             <div class="space-y-3 sm:py-0">
               <div>
-                <h3 class="heading-4">Address</h3>
-                <p class="text-sm">{{ item.address }}</p>
+                <h3 class="heading-4">Location (lat, lng)</h3>
+                <p class="text-sm">{{ item.lat }}, {{ item.lng }}</p>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@
               <td class="p-2">#</td>
               <td class="p-2">Date</td>
               <td class="p-2">User</td>
-              <td class="p-2">Address</td>
+              <td class="p-2">Location (lat, lng)</td>
             </tr>
           </thead>
           <tbody>
@@ -125,7 +125,9 @@
               <td class="p-2 whitespace-nowrap">
                 {{ item.user.firstName }} {{ item.user.lastName }}
               </td>
-              <td class="p-2 whitespace-nowrap">{{ item.address }}</td>
+              <td class="p-2 whitespace-nowrap">
+                {{ item.lat }}, {{ item.lng }}
+              </td>
             </tr>
           </tbody>
         </table>
