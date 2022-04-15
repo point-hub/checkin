@@ -34,6 +34,17 @@
           </div>
           <div class="flex-1 space-y-2">
             <div class="p-2 bg-white">
+              <h1 class="text-sm font-bold">Update 0.5.1</h1>
+              <ol class="mt-1">
+                <li class="text-sm">
+                  - Replace google maps with leaflet
+                </li>
+                <li class="text-sm">
+                  - Replace geocoding address with location (lat, lng)
+                </li>
+              </ol>
+            </div>
+            <div class="p-2 bg-white">
               <h1 class="text-sm font-bold">
                 Ingin manfaat lebih dari Point Checkin?
               </h1>
