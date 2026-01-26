@@ -7,7 +7,8 @@ const state = {
     email: null
   },
   activeGroup: {},
-  groups: []
+  groups: [],
+  isAuthenticated: false
 };
 
 const getters = {
@@ -19,6 +20,9 @@ const getters = {
   },
   groups: state => {
     return state.groups;
+  },
+  isAuthenticated: state => {
+    return state.isAuthenticated;
   }
 };
 
@@ -31,18 +35,27 @@ const mutations = {
   },
   groups(state, groups) {
     state.groups = groups;
+  },
+  isAuthenticated(state, isAuthenticated) {
+    state.isAuthenticated = isAuthenticated;
   }
 };
 
 const actions = {
-  async login({ dispatch }, payload) {
+  async login({ dispatch, commit }, payload) {
     try {
       const result = await axios.post("/auth/login", {
         email: payload.email,
         password: payload.password
       });
       if (result.status === 200) {
-        cookie.set("token", result.data.data.token);
+        const token = result.data.data.token;
+        const tokenExpiry = new Date().getTime() + 12 * 60 * 60 * 1000; // 12 hours from now
+
+        cookie.set("token", token);
+        cookie.set("tokenExpiry", tokenExpiry);
+
+        commit("isAuthenticated", true);
         dispatch("updateAuthUser", result.data.data);
         dispatch("updateUserGroups", result.data.includes.groups);
         dispatch("updateDefaultActiveGroup", result.data.includes.groups);
@@ -52,21 +65,48 @@ const actions = {
       return error;
     }
   },
-  async loginUsingToken({ dispatch }) {
+  async loginUsingToken({ dispatch, commit }) {
     try {
+      // Check if token exists
+      const token = cookie.get("token");
+      if (!token) {
+        commit("isAuthenticated", false);
+        throw new Error("No token found");
+      }
+
+      // Check if token is expired
+      const tokenExpiry = cookie.get("tokenExpiry");
+      if (tokenExpiry && new Date().getTime() > parseInt(tokenExpiry)) {
+        // Token expired, clear cookies
+        cookie.remove("token");
+        cookie.remove("tokenExpiry");
+        commit("isAuthenticated", false);
+        throw new Error("Token expired");
+      }
+
       const result = await axios.get("/auth/secret");
       if (result.status === 200) {
+        commit("isAuthenticated", true);
         dispatch("updateAuthUser", result.data.data);
         dispatch("updateUserGroups", result.data.includes.groups);
         dispatch("updateDefaultActiveGroup", result.data.includes.groups);
       }
       return result;
     } catch (error) {
-      return error;
+      commit("isAuthenticated", false);
+      cookie.remove("token");
+      cookie.remove("tokenExpiry");
+      throw error;
     }
   },
-  logout() {
-    //
+  logout({ commit }) {
+    cookie.remove("token");
+    cookie.remove("tokenExpiry");
+    cookie.remove("activeGroupId");
+    commit("isAuthenticated", false);
+    commit("authUser", { username: null, email: null });
+    commit("activeGroup", {});
+    commit("groups", []);
   },
   updateAuthUser({ commit }, payload) {
     commit("authUser", payload);

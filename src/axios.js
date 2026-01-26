@@ -41,9 +41,16 @@ instance.interceptors.response.use(
       // Network error
       return Promise.reject(error);
     } else {
-      // If reponse is unauthorized (401) then redirect user to login page
+      // If response is unauthorized (401) then token is invalid/expired
       if (error.response.status == 401) {
-        router.push("/auth/login");
+        // Clear token and redirect to login
+        cookie.remove("token");
+        cookie.remove("tokenExpiry");
+
+        // Only redirect if not already on login page
+        if (router.currentRoute.value.path !== "/auth/login") {
+          router.push("/auth/login");
+        }
       }
       console.log("Response Error: ", error.response);
       return Promise.reject(error.response);
