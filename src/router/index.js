@@ -56,8 +56,13 @@ const routes = [
       }
     ],
     beforeEnter: async (to, from, next) => {
-      await store.dispatch("auth/loginUsingToken");
-      next();
+      try {
+        await store.dispatch("auth/loginUsingToken");
+        next();
+      } catch (error) {
+        // Token invalid or expired, redirect to login
+        next("/auth/login");
+      }
     }
   },
   {
@@ -88,7 +93,18 @@ const routes = [
       {
         path: "login",
         name: "Login",
-        component: () => import("@/views/auth/Login.vue")
+        component: () => import("@/views/auth/Login.vue"),
+        beforeEnter: async (to, from, next) => {
+          try {
+            // Check if user is already logged in
+            await store.dispatch("auth/loginUsingToken");
+            // If successful, redirect to home
+            next("/");
+          } catch (error) {
+            // Not logged in or token expired, proceed to login page
+            next();
+          }
+        }
       }
     ]
   },
@@ -99,7 +115,18 @@ const routes = [
       {
         path: "",
         name: "Signup",
-        component: () => import("@/views/auth/Signup.vue")
+        component: () => import("@/views/auth/Signup.vue"),
+        beforeEnter: async (to, from, next) => {
+          try {
+            // Check if user is already logged in
+            await store.dispatch("auth/loginUsingToken");
+            // If successful, redirect to home
+            next("/");
+          } catch (error) {
+            // Not logged in or token expired, proceed to signup page
+            next();
+          }
+        }
       }
     ]
   }
