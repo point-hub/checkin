@@ -89,7 +89,7 @@
                 <a
                   href="javascript:void(0)"
                   class="w-full text-sm font-bold text-center uppercase"
-                  @click="logout"
+                  @click="onLogout"
                 >
                   LOGOUT
                 </a>
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import cookie from "@point-hub/vue-cookie";
+import { mapActions } from "vuex";
 
 export default {
   name: "ASide",
@@ -117,14 +117,15 @@ export default {
     this.close();
   },
   methods: {
+    ...mapActions("auth", ["logout"]),
     open() {
       this.isOpen = true;
     },
     close() {
       this.isOpen = false;
     },
-    logout() {
-      cookie.remove("token");
+    onLogout() {
+      this.logout();
       this.$router.push("/auth/login");
     }
   }

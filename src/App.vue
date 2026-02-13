@@ -8,6 +8,8 @@
 <script>
 import UpdateApp from "./components/UpdateApp";
 import socketIO from "@/lib/socket";
+import cookie from "@point-hub/vue-cookie";
+import { getTokenExpiryTimestamp, isTokenExpired } from "@/lib/token";
 
 export default {
   components: {
@@ -16,8 +18,16 @@ export default {
   data() {
     return {
       socket: socketIO,
-      version: process.env.VUE_APP_VERSION
+      version: process.env.VUE_APP_VERSION,
+      tokenCheckInterval: null,
+      tokenExpiryTimeout: null,
+      activeToken: null
     };
+  },
+  watch: {
+    $route() {
+      this.validateTokenSession();
+    }
   },
   mounted() {
     navigator.serviceWorker.addEventListener("controllerchange", () => {
@@ -27,7 +37,94 @@ export default {
       this.$refs.updateAppRef.open();
     });
 
-    this.socket.on("appVersion", version => {
+    this.socket.on("appVersion", this.handleAppVersionUpdate);
+    this.startTokenExpiryWatcher();
+    window.addEventListener("focus", this.validateTokenSession);
+    document.addEventListener("visibilitychange", this.onVisibilityChange);
+  },
+  beforeUnmount() {
+    this.socket.off("appVersion", this.handleAppVersionUpdate);
+    this.clearTokenWatcher();
+    window.removeEventListener("focus", this.validateTokenSession);
+    document.removeEventListener("visibilitychange", this.onVisibilityChange);
+  },
+  methods: {
+    onVisibilityChange() {
+      if (!document.hidden) {
+        this.validateTokenSession();
+      }
+    },
+    startTokenExpiryWatcher() {
+      this.validateTokenSession();
+      this.tokenCheckInterval = window.setInterval(() => {
+        this.validateTokenSession();
+      }, 30000);
+    },
+    clearTokenWatcher() {
+      this.clearTokenExpiryTimeout();
+      if (this.tokenCheckInterval) {
+        window.clearInterval(this.tokenCheckInterval);
+        this.tokenCheckInterval = null;
+      }
+      this.activeToken = null;
+    },
+    clearTokenExpiryTimeout() {
+      if (this.tokenExpiryTimeout) {
+        window.clearTimeout(this.tokenExpiryTimeout);
+        this.tokenExpiryTimeout = null;
+      }
+    },
+    scheduleTokenExpiryLogout(token) {
+      this.clearTokenExpiryTimeout();
+      const tokenExpiry = getTokenExpiryTimestamp(token);
+
+      if (!tokenExpiry) {
+        return;
+      }
+
+      const timeoutDuration = tokenExpiry - Date.now();
+      if (timeoutDuration <= 0) {
+        this.forceLogoutToLogin();
+        return;
+      }
+
+      this.tokenExpiryTimeout = window.setTimeout(() => {
+        this.forceLogoutToLogin();
+      }, timeoutDuration);
+    },
+    validateTokenSession() {
+      const token = cookie.get("token");
+
+      if (!token) {
+        this.activeToken = null;
+        this.clearTokenExpiryTimeout();
+        return;
+      }
+
+      if (token !== this.activeToken) {
+        this.activeToken = token;
+        this.scheduleTokenExpiryLogout(token);
+      }
+
+      const tokenExpiry = getTokenExpiryTimestamp(token);
+      if (tokenExpiry) {
+        cookie.set("tokenExpiry", tokenExpiry.toString());
+      }
+
+      if (isTokenExpired(token)) {
+        this.forceLogoutToLogin();
+      }
+    },
+    forceLogoutToLogin() {
+      this.activeToken = null;
+      this.clearTokenExpiryTimeout();
+      this.$store.dispatch("auth/logout");
+
+      if (this.$route.path !== "/auth/login") {
+        this.$router.push("/auth/login");
+      }
+    },
+    handleAppVersionUpdate(version) {
       const onlineMajor = version.split(".")[0];
       const onlineMinor = version.split(".")[1];
       const onlinePatch = version.split(".")[2];
@@ -50,7 +147,7 @@ export default {
       if (onlineMinor > localMinor || onlineMajor > localMajor) {
         window.location.reload(true);
       }
-    });
+    }
   }
 };
 </script>

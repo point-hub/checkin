@@ -1,5 +1,20 @@
 import axios from "@/axios";
 import cookie from "@point-hub/vue-cookie";
+import { getTokenExpiryTimestamp, isTokenExpired } from "@/lib/token";
+
+function clearAuthCookies() {
+  cookie.remove("token");
+  cookie.remove("tokenExpiry");
+  cookie.remove("activeGroupId");
+}
+
+function setTokenCookies(token) {
+  cookie.set("token", token);
+
+  const tokenExpiry =
+    getTokenExpiryTimestamp(token) || Date.now() + 12 * 60 * 60 * 1000;
+  cookie.set("tokenExpiry", tokenExpiry.toString());
+}
 
 const state = {
   authUser: {
@@ -50,10 +65,7 @@ const actions = {
       });
       if (result.status === 200) {
         const token = result.data.data.token;
-        const tokenExpiry = new Date().getTime() + 12 * 60 * 60 * 1000; // 12 hours from now
-
-        cookie.set("token", token);
-        cookie.set("tokenExpiry", tokenExpiry);
+        setTokenCookies(token);
 
         commit("isAuthenticated", true);
         dispatch("updateAuthUser", result.data.data);
@@ -74,12 +86,17 @@ const actions = {
         throw new Error("No token found");
       }
 
-      // Check if token is expired
-      const tokenExpiry = cookie.get("tokenExpiry");
-      if (tokenExpiry && new Date().getTime() > parseInt(tokenExpiry)) {
-        // Token expired, clear cookies
-        cookie.remove("token");
-        cookie.remove("tokenExpiry");
+      // Always prioritize token exp claim from backend.
+      const tokenExpiryFromToken = getTokenExpiryTimestamp(token);
+      if (tokenExpiryFromToken) {
+        cookie.set("tokenExpiry", tokenExpiryFromToken.toString());
+      }
+
+      const tokenExpiry =
+        tokenExpiryFromToken || parseInt(cookie.get("tokenExpiry"), 10);
+
+      if (isTokenExpired(token) || (tokenExpiry && Date.now() >= tokenExpiry)) {
+        clearAuthCookies();
         commit("isAuthenticated", false);
         throw new Error("Token expired");
       }
@@ -94,15 +111,12 @@ const actions = {
       return result;
     } catch (error) {
       commit("isAuthenticated", false);
-      cookie.remove("token");
-      cookie.remove("tokenExpiry");
+      clearAuthCookies();
       throw error;
     }
   },
   logout({ commit }) {
-    cookie.remove("token");
-    cookie.remove("tokenExpiry");
-    cookie.remove("activeGroupId");
+    clearAuthCookies();
     commit("isAuthenticated", false);
     commit("authUser", { username: null, email: null });
     commit("activeGroup", {});
