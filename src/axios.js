@@ -1,6 +1,13 @@
 import axios from "axios";
 import cookie from "@point-hub/vue-cookie";
 import router from "./router";
+import { getTokenExpiryTimestamp, isTokenExpired } from "@/lib/token";
+
+function clearAuthCookies() {
+  cookie.remove("token");
+  cookie.remove("tokenExpiry");
+  cookie.remove("activeGroupId");
+}
 
 const instance = axios.create({
   baseURL: process.env.VUE_APP_API_ENDPOINT,
@@ -17,7 +24,20 @@ instance.interceptors.request.use(
     // Add auth token
     const token = cookie.get("token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      const tokenExpiry = getTokenExpiryTimestamp(token);
+      if (tokenExpiry) {
+        cookie.set("tokenExpiry", tokenExpiry.toString());
+      }
+
+      if (isTokenExpired(token)) {
+        clearAuthCookies();
+
+        if (router.currentRoute.value.path !== "/auth/login") {
+          router.push("/auth/login");
+        }
+      } else {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
 
     return config;
@@ -44,8 +64,7 @@ instance.interceptors.response.use(
       // If response is unauthorized (401) then token is invalid/expired
       if (error.response.status == 401) {
         // Clear token and redirect to login
-        cookie.remove("token");
-        cookie.remove("tokenExpiry");
+        clearAuthCookies();
 
         // Only redirect if not already on login page
         if (router.currentRoute.value.path !== "/auth/login") {
